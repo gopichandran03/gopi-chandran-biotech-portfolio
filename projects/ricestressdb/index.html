@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RiceStressDB · Gopi Chandran</title>
+<meta name="description" content="RiceStressDB: a relational database of stress-responsive rice genes with functional annotation and biotic/abiotic stress metadata. Includes the data model, an interactive query console over a sample extract, and the generated SQL.">
+<link rel="stylesheet" href="../../assets/css/deck.css">
+</head>
+<body>
+<div class="topbar"><div class="wrap topinner">
+  <a class="wordmark" href="../../index.html">GC<span>.</span> / Portfolio</a>
+  <nav class="topnav" aria-label="Project navigation">
+    <a href="../index.html">All projects</a>
+    <a href="../../index.html#projects">Back to portfolio</a>
+    <a href="../../workflows/rice_stress_db/README.md">Code &amp; README</a>
+  </nav>
+  <a class="button sm light" href="mailto:gopic2@umbc.edu">gopic2@umbc.edu</a>
+</div></div>
+
+<header class="phero"><div class="wrap">
+  <div class="kicker">06 · Biological data infrastructure</div>
+  <h1>The genes were known.<br><em>They just weren't queryable.</em></h1>
+  <p class="phero-sub">RiceStressDB organises stress-responsive rice genes with their functional annotations and the biotic and abiotic stress conditions they respond to, so that a question like "which transcription factors respond to both salinity and a pathogen?" becomes one query instead of a week of reading. Built with MySQL and PHP; registered as a software copyright associated with TNAU.</p>
+  <div class="meta-row"><span class="pill accent">Registered software copyright</span><span class="pill">SW-35001/2025-CO</span><span class="pill">MySQL · PHP</span><span class="pill solid">Interactive demo</span></div>
+  <button class="demo-jump" data-deck-goto="3"><span class="play" aria-hidden="true">&#9654;</span> Try the interactive demo<small>skip to slide 3</small></button>
+  <div class="note"><strong>What the demo contains:</strong> a <em>15-record sample extract</em> used to demonstrate the data model and query behaviour. The locus identifiers and stress associations in that sample are drawn from public curated resources and primary literature, cited on the final slide - they are real records, not invented ones. The production database developed at TNAU is not reproduced here.</div>
+</div></header>
+
+<main class="wrap deck-shell">
+  <div class="deck-bar">
+    <div>
+      <span class="deck-counter" data-deck-counter>Slide 1 of 7</span>
+      <span class="deck-hint"> · arrow keys, swipe, or the buttons</span>
+    </div>
+    <div class="deck-controls">
+      <button class="demo-jump" data-deck-goto="3"><span class="play" aria-hidden="true">&#9654;</span> Demo</button>
+      <button class="button sm light" data-deck-prev aria-label="Previous slide">&larr; Prev</button>
+      <button class="button sm primary" data-deck-next aria-label="Next slide">Next &rarr;</button>
+    </div>
+  </div>
+  <div class="deck-track"><i data-deck-bar></i></div>
+  <div data-deck>
+    <section class="slide" aria-label="Why a database and not a spreadsheet">
+      <div class="slide-eyebrow">01 · The problem</div>
+      <h2>Why a database and not a spreadsheet</h2>
+      <p class="lede">Rice stress biology has a literature problem rather than a knowledge problem. The findings exist; they are distributed across thousands of papers, under inconsistent gene names, with no common vocabulary for the stress conditions themselves.</p>
+      <div class="cols">
+        <div class="panel sand">
+          <h3>What makes this genuinely hard</h3>
+          <ul>
+            <li><strong>Synonym chaos.</strong> One gene appears as <code>OsNAC6</code>, <code>SNAC2</code>, <code>ONAC048</code>, <code>OsNAC2</code> and more across papers - the same entity under five names.</li>
+            <li><strong>Two identifier systems.</strong> MSU (<code>LOC_Os...</code>) and RAP-DB (<code>Os...g...</code>) both in active use, and papers pick either.</li>
+            <li><strong>Stress vocabulary is unstandardised.</strong> "Drought", "dehydration", "water deficit" and "osmotic stress" are used overlappingly.</li>
+            <li><strong>Biotic and abiotic are studied separately</strong> - yet genes like <code>OsNAC6</code> respond to both, which is exactly the interesting case.</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>Why a spreadsheet fails</h3>
+          <p>A flat sheet forces one row per gene, so the many-to-many relationship between genes and stress conditions has to be crammed into a comma-separated cell. The moment it is, you cannot ask the only questions worth asking:</p>
+          <ul>
+            <li>Which genes respond to <em>both</em> salinity and blast?</li>
+            <li>Which stress has the most characterised transcription factors?</li>
+            <li>Which genes are induced under one stress and repressed under another?</li>
+          </ul>
+          <p style="margin-top:12px">Those are relational questions. They need a relational model.</p>
+        </div>
+      </div>
+      <div class="takeaway"><strong>Design goal:</strong> make the gene-to-stress relationship a first-class object in the schema rather than a string inside a cell. Everything else in this project follows from that one decision.</div>
+    </section>
+
+    <section class="slide" aria-label="The schema">
+      <div class="slide-eyebrow">02 · Data model</div>
+      <h2>The schema</h2>
+      <p>Four core tables. The important one is the junction table in the middle - it is where the biology actually lives.</p>
+      <pre><code>genes                        stress_conditions
+-----                        -----------------
+gene_id        PK            stress_id      PK
+msu_locus      UNIQUE        stress_name    UNIQUE
+rap_locus                    category       ENUM('abiotic','biotic')
+primary_symbol               description
+gene_family
+chromosome
+description
+
+gene_synonyms                gene_stress_response
+-------------                --------------------
+synonym_id     PK            response_id    PK
+gene_id        FK ─────┐     gene_id        FK ──┐
+synonym                │     stress_id      FK ──┼── UNIQUE(gene_id, stress_id)
+source                 │     direction      ENUM('induced','repressed','both','unchanged')
+                       │     evidence       ENUM('expression','transgenic','qtl','mutant')
+                       └───  reference_pmid
+                             notes</code></pre>
+      <div class="cols" style="margin-top:22px">
+        <div class="panel">
+          <h3>Why synonyms get their own table</h3>
+          <p>A gene has an unbounded number of historical names. Putting them in a child table means a search for <code>SNAC2</code> and a search for <code>OsNAC6</code> both resolve to the same <code>gene_id</code> - which is the single most useful thing the database does for a working biologist.</p>
+        </div>
+        <div class="panel">
+          <h3>Why direction and evidence are on the relationship</h3>
+          <p>"Responds to drought" is not a property of a gene. It is a property of the <em>gene-stress pair</em>, and it has a direction and a strength of evidence. Expression data and transgenic phenotype data are not the same claim, and the schema should not pretend they are.</p>
+        </div>
+      </div>
+      <div class="takeaway"><strong>The modelling judgement I would defend:</strong> <code>direction</code> and <code>evidence</code> belong on <code>gene_stress_response</code>, not on <code>genes</code>. Putting them on the gene would force one verdict per gene and silently destroy the cases where a gene is induced by one stress and repressed by another.</div>
+    </section>
+
+    <section class="slide" aria-label="Query the sample extract">
+      <div class="slide-eyebrow">03 · Interactive</div>
+      <h2>Query the sample extract</h2>
+      <p>Below is the query interface over the 15-record sample. Filter, search, and sort - then open the panel at the bottom to see the SQL your filter corresponds to.</p>
+
+      <div class="demo viz">
+        <div class="demo-head">
+          <h3>RiceStressDB query console</h3>
+          <span class="tag">15-record sample extract · real curated records</span>
+        </div>
+        <div class="demo-body">
+          <div class="controls">
+            <label class="control">Search gene, locus or synonym
+              <input type="text" id="qtext" placeholder="e.g. SNAC2, HKT, Os01g...">
+            </label>
+            <label class="control">Stress category
+              <select id="qcat">
+                <option value="">All categories</option>
+                <option value="abiotic">Abiotic</option>
+                <option value="biotic">Biotic</option>
+              </select>
+            </label>
+            <label class="control">Stress condition
+              <select id="qstress"><option value="">All conditions</option></select>
+            </label>
+            <label class="control">Gene family
+              <select id="qfam"><option value="">All families</option></select>
+            </label>
+            <label class="control">Response direction
+              <select id="qdir">
+                <option value="">Any</option>
+                <option value="induced">Induced</option>
+                <option value="repressed">Repressed</option>
+              </select>
+            </label>
+            <button class="button sm light" id="qreset">Reset</button>
+          </div>
+
+          <div class="readout">
+            <div><b id="s-genes">-</b><small>Genes matched</small></div>
+            <div><b id="s-rows">-</b><small>Gene-stress records</small></div>
+            <div><b id="s-cond">-</b><small>Conditions represented</small></div>
+            <div><b id="s-both">-</b><small>Genes with biotic + abiotic</small></div>
+          </div>
+
+          <div class="tbl-scroll" id="qresult" style="margin-top:16px"></div>
+
+          <figure>
+            <svg id="qchart" viewBox="0 0 740 260" role="img" aria-labelledby="qchart-t">
+              <title id="qchart-t">Number of genes in the current result set associated with each stress condition</title>
+            </svg>
+            <figcaption>Genes in the current result set per stress condition, with counts labelled directly on each bar. Abiotic and biotic conditions are distinguished by colour and by the category column in the table above.</figcaption>
+          </figure>
+          <div class="legend">
+            <span><i style="background:var(--series-1)"></i>Abiotic condition</span>
+            <span><i style="background:var(--series-2)"></i>Biotic condition</span>
+          </div>
+
+          <button class="button sm light tablebtn" id="sqlbtn" aria-expanded="false">Show the SQL for this filter</button>
+          <div class="datatable" id="sqlbox" hidden style="margin-top:12px"></div>
+        </div>
+      </div>
+
+      <div class="takeaway"><strong>Try this:</strong> set the category filter to <em>biotic</em>, then clear it and search <code>NAC</code>. The NAC family turns up under drought, salinity, cold <em>and</em> blast - which is the cross-stress pattern that motivated building this in the first place, and the thing a per-paper reading of the literature makes very easy to miss.</div>
+    </section>
+
+    <section class="slide" aria-label="The queries that justify the schema">
+      <div class="slide-eyebrow">04 · The SQL</div>
+      <h2>The queries that justify the schema</h2>
+      <p>Three queries that are trivial in this model and painful in a flat file.</p>
+      <h3>1. Genes responding to both an abiotic and a biotic stress</h3>
+      <pre><code>SELECT g.primary_symbol, g.msu_locus, g.gene_family,
+       COUNT(DISTINCT CASE WHEN s.category='abiotic' THEN s.stress_id END) AS abiotic_n,
+       COUNT(DISTINCT CASE WHEN s.category='biotic'  THEN s.stress_id END) AS biotic_n
+FROM genes g
+JOIN gene_stress_response r ON r.gene_id = g.gene_id
+JOIN stress_conditions    s ON s.stress_id = r.stress_id
+GROUP BY g.gene_id
+HAVING abiotic_n &gt; 0 AND biotic_n &gt; 0
+ORDER BY (abiotic_n + biotic_n) DESC;</code></pre>
+
+      <h3 style="margin-top:24px">2. Synonym-tolerant lookup</h3>
+      <pre><code>SELECT DISTINCT g.*
+FROM genes g
+LEFT JOIN gene_synonyms y ON y.gene_id = g.gene_id
+WHERE g.primary_symbol LIKE CONCAT('%', ?, '%')
+   OR g.msu_locus      LIKE CONCAT('%', ?, '%')
+   OR g.rap_locus       LIKE CONCAT('%', ?, '%')
+   OR y.synonym         LIKE CONCAT('%', ?, '%');</code></pre>
+      <p>This is the query that makes the database usable. A biologist who read a 2005 paper searches <code>SNAC2</code>; a biologist who read a 2016 paper searches <code>OsNAC6</code>; both land on the same record.</p>
+
+      <h3 style="margin-top:24px">3. Conditions ranked by how well characterised they are</h3>
+      <pre><code>SELECT s.stress_name, s.category,
+       COUNT(DISTINCT r.gene_id) AS genes,
+       SUM(r.evidence = 'transgenic') AS transgenic_evidence
+FROM stress_conditions s
+LEFT JOIN gene_stress_response r ON r.stress_id = s.stress_id
+GROUP BY s.stress_id
+ORDER BY genes DESC;</code></pre>
+      <p>Counting <em>transgenic</em> evidence separately matters: a stress with fifty expression-only associations is less well understood than one with ten genes validated by transgenic phenotype, and a bare gene count hides that completely.</p>
+      <div class="takeaway"><strong>Point of the slide:</strong> the schema is not bookkeeping. It is what makes these three questions one-liners - and the third one is a research-planning question, not a lookup.</div>
+    </section>
+
+    <section class="slide" aria-label="How it was built, and what I would change">
+      <div class="slide-eyebrow">05 · Implementation</div>
+      <h2>How it was built, and what I would change</h2>
+      <div class="cols">
+        <div class="panel">
+          <h3>The stack as built</h3>
+          <ul>
+            <li><strong>MySQL</strong> for storage, with foreign keys and a unique constraint on <code>(gene_id, stress_id)</code></li>
+            <li><strong>PHP</strong> for the web interface - server-rendered search and browse pages</li>
+            <li>Indexes on <code>msu_locus</code>, <code>rap_locus</code>, <code>primary_symbol</code>, <code>gene_synonyms.synonym</code> and both foreign keys on the junction table</li>
+            <li>Curation from published literature into a staging sheet, then loaded</li>
+          </ul>
+        </div>
+        <div class="panel lime">
+          <h3>What I would do differently now</h3>
+          <ul>
+            <li><strong>Controlled vocabulary for stress terms</strong> - map to Plant Ontology / PECO rather than free text, so "dehydration" and "water deficit" collapse properly</li>
+            <li><strong>Full-text or trigram index</strong> on synonyms instead of <code>LIKE '%...%'</code>, which cannot use a B-tree index and degrades as the table grows</li>
+            <li><strong>A real API</strong> (JSON over HTTP) so the data is programmatically reachable, not only browsable</li>
+            <li><strong>Provenance per row</strong> - curator, date and curation confidence, so records can be re-reviewed</li>
+            <li><strong>Automated identifier validation</strong> against MSU/RAP releases, to catch retired loci</li>
+          </ul>
+        </div>
+      </div>
+      <h3 style="margin-top:26px">The performance problem I actually hit</h3>
+      <p>Synonym search with a leading wildcard (<code>LIKE '%NAC%'</code>) cannot use a standard index, so every query scanned the synonym table. At the project's scale that was invisible. It would not stay invisible, and knowing <em>why</em> - that a leading wildcard defeats a B-tree prefix match - is the part of this project I use most often elsewhere.</p>
+      <div class="takeaway"><strong>Honest assessment of the engineering:</strong> the data model is the strong part and I would defend it unchanged. The query layer was adequate for the scale and would need the fixes above before it grew.</div>
+    </section>
+
+    <section class="slide" aria-label="Registration, scope and what is mine">
+      <div class="slide-eyebrow">06 · Provenance</div>
+      <h2>Registration, scope and what is mine</h2>
+      <div class="cols">
+        <div class="panel">
+          <h3>Registration</h3>
+          <p>Registered software copyright, Government of India, associated with Tamil Nadu Agricultural University.</p>
+          <p style="margin-top:8px"><strong>Registration number:</strong> <code>SW-35001/2025-CO</code></p>
+          <p style="margin-top:12px">A copyright registration covers the software as an original work of authorship. It is not a patent, it is not a claim of novelty over the underlying biology, and I state it as what it is.</p>
+        </div>
+        <div class="panel">
+          <h3>Scale as built</h3>
+          <ul>
+            <li>1,200+ gene records</li>
+            <li>17 biotic and abiotic stress conditions</li>
+            <li>Functional annotations and stress metadata integrated per record</li>
+          </ul>
+          <p style="margin-top:12px">Those figures describe the production database at TNAU. The demo on slide 3 is a 15-record sample, and the repository contains that sample as SQL seed data - not the production content.</p>
+        </div>
+      </div>
+      <h3 style="margin-top:26px">Attribution, stated precisely</h3>
+      <ul>
+        <li><strong>Mine:</strong> the data model, the schema, the query layer, the web interface, and the curation work of reading papers and turning findings into structured records.</li>
+        <li><strong>Not mine:</strong> the underlying biology. Every gene-stress association originates in a published study by other researchers. A curated database is a work of organisation, and its value depends on citing what it organises.</li>
+        <li><strong>Institutional:</strong> developed in a TNAU research context during my B.Tech., with the registration associated accordingly.</li>
+      </ul>
+      <div class="takeaway"><strong>Why I am this careful about it:</strong> curated databases are easy to overstate - "1,200 genes" can be made to sound like 1,200 discoveries. It is 1,200 records organised well, which is a real and different contribution.</div>
+    </section>
+
+    <section class="slide" aria-label="Where the sample records come from">
+      <div class="slide-eyebrow">07 · Sources</div>
+      <h2>Where the sample records come from</h2>
+      <p>Every record in the slide-3 sample is a real curated entry. Locus identifiers and stress associations were taken from these public resources and the primary literature they index.</p>
+      <ul class="refs">
+        <li><strong>funRiceGenes</strong> - curated collection of functionally characterised rice genes, the source for MSU/RAP identifier pairs, synonym sets and stress associations used in the sample: <a href="https://funricegenes.github.io/" target="_blank" rel="noopener">funricegenes.github.io</a>. Individual records consulted include <a href="https://funricegenes.github.io/LOC_Os01g20160/" target="_blank" rel="noopener">OsHKT1;5/SKC1</a>, <a href="https://funricegenes.github.io/LOC_Os09g35030/" target="_blank" rel="noopener">OsDREB1A</a>, <a href="https://funricegenes.github.io/LOC_Os01g66120/" target="_blank" rel="noopener">OsNAC6/SNAC2</a>, <a href="https://funricegenes.github.io/LOC_Os03g60080/" target="_blank" rel="noopener">SNAC1</a>, <a href="https://funricegenes.github.io/LOC_Os05g46480/" target="_blank" rel="noopener">OsLEA3</a>, <a href="https://funricegenes.github.io/LOC_Os05g38150/" target="_blank" rel="noopener">OsP5CS1</a>, <a href="https://funricegenes.github.io/LOC_Os12g44360/" target="_blank" rel="noopener">OsSOS1</a>, <a href="https://funricegenes.github.io/LOC_Os11g08210/" target="_blank" rel="noopener">OsNAC5</a> and <a href="https://funricegenes.github.io/LOC_Os09g11480/" target="_blank" rel="noopener">Sub1B</a>.</li>
+        <li><strong>Oryzabase</strong> (National BioResource Project, Japan) - gene symbol synonyms, CGSNL nomenclature and MSU/RAP cross-references: <a href="https://shigen.nig.ac.jp/rice/oryzabase/" target="_blank" rel="noopener">shigen.nig.ac.jp/rice/oryzabase</a>.</li>
+        <li><strong>Locus identifiers for OsiSAP8 (cold), OsASR5 (drought), OsSAPK4 (salt) and OsEIL1 (submergence)</strong> - compiled table of key abiotic stress genes in rice, <em>Recent molecular aspects and integrated omics strategies for understanding the abiotic stress tolerance of rice</em>, <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10221523/" target="_blank" rel="noopener">PMC10221523</a>.</li>
+        <li><strong>SNAC1 drought phenotype</strong> (22-34% higher seed setting under severe reproductive-stage drought in the field, without yield penalty) - as recorded in funRiceGenes for <a href="https://funricegenes.github.io/LOC_Os03g60080/" target="_blank" rel="noopener">LOC_Os03g60080</a>.</li>
+        <li><strong>Sub1 locus structure</strong> - three ERF genes (Sub1A, Sub1B, Sub1C) at the locus, with Sub1A the major determinant of submergence tolerance; <em>Development of submergence-tolerant rice cultivars: the Sub1 locus and beyond</em>, <em>Annals of Botany</em> (2009), as indexed by funRiceGenes.</li>
+        <li><strong>MSU Rice Genome Annotation Project</strong> and <strong>RAP-DB</strong> - the two identifier systems the schema reconciles.</li>
+      </ul>
+      <div class="note neutral"><strong>Why the sample is real rather than invented:</strong> a demo over fabricated gene records would show the interface and teach nothing, and anyone in the field would spot the fake identifiers immediately. Using genuine curated records means the cross-stress pattern the demo surfaces is a real feature of rice stress biology, not an artefact I built in.</div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap pfoot"><div class="pfoot-grid">
+    <a class="button light" href="../cr6261-influenza/index.html">&larr; CR6261 and the influenza HA stem</a>
+    <a class="button light" href="../index.html">All 8 projects</a>
+    <a class="button primary" href="../moringa-rnaseq/index.html">Moringa oleifera RNA-seq profiling &rarr;</a>
+  </div></div>
+  <div class="wrap fineprint">
+    <span>© Gopi Chandran · Project walkthrough</span>
+    <span>Sample extract · schema and seed data in workflows/rice_stress_db/</span>
+    <span><a href="#top">Back to top &uarr;</a></span>
+  </div>
+</footer>
+<script src="../../assets/js/deck.js"></script>
+<script>
+(function(){
+  'use strict';
+  // 15-record sample extract. Identifiers and stress associations are from
+  // public curated resources (funRiceGenes / Oryzabase / primary literature);
+  // see the sources slide. This is a demonstration subset, not the production DB.
+  var GENES=[
+    {sym:'OsHKT1;5',msu:'LOC_Os01g20160',rap:'',fam:'HKT transporter',chr:1,
+     syn:['SKC1','OsHKT8','OsHK1;5'],
+     desc:'Na+-selective transporter; mediates Na+ exclusion and K+/Na+ homeostasis under salt stress',
+     resp:[['Salinity','abiotic','induced','qtl']]},
+    {sym:'OsSOS1',msu:'LOC_Os12g44360',rap:'Os12g0641100',fam:'Na+/H+ antiporter',chr:12,
+     syn:['OsNHA1'],
+     desc:'Plasma-membrane Na+/H+ exchanger; upregulated in shoots and roots under salt, not induced by drought',
+     resp:[['Salinity','abiotic','induced','expression']]},
+    {sym:'OsDREB1A',msu:'LOC_Os09g35030',rap:'Os09g0522200',fam:'AP2/ERF (DREB)',chr:9,
+     syn:['OsCBF3','OsDREBL','OsERF024'],
+     desc:'DRE-binding transcription factor; expression induced by cold',
+     resp:[['Cold','abiotic','induced','expression'],['Drought','abiotic','induced','transgenic']]},
+    {sym:'SNAC1',msu:'LOC_Os03g60080',rap:'',fam:'NAC',chr:3,
+     syn:['OsNAC19','OsNAC9'],
+     desc:'Stress-responsive NAC; overexpression raised seed setting 22-34% under severe reproductive-stage drought in the field with no yield penalty',
+     resp:[['Drought','abiotic','induced','transgenic'],['Salinity','abiotic','induced','expression']]},
+    {sym:'OsNAC6',msu:'LOC_Os01g66120',rap:'Os01g0884300',fam:'NAC',chr:1,
+     syn:['SNAC2','ONAC048','OsNAC2','OsSOG71'],
+     desc:'Induced by cold, drought, salinity and ABA, and also by wounding and blast disease - integrates abiotic and biotic signals',
+     resp:[['Cold','abiotic','induced','expression'],['Drought','abiotic','induced','transgenic'],
+           ['Salinity','abiotic','induced','expression'],['Blast disease','biotic','induced','expression'],
+           ['Wounding','biotic','induced','expression']]},
+    {sym:'OsNAC5',msu:'LOC_Os11g08210',rap:'',fam:'NAC',chr:11,
+     syn:[],
+     desc:'Abiotic stress-responsive NAC; overexpression improved high-salinity tolerance; salt induction abolished by an ABA-effect inhibitor',
+     resp:[['Salinity','abiotic','induced','transgenic']]},
+    {sym:'SNAC3',msu:'LOC_Os01g09550',rap:'',fam:'NAC',chr:1,
+     syn:['ONAC066','OsNAC006'],
+     desc:'Positive regulator of drought and oxidative stress response; significantly activated by rice blast infection',
+     resp:[['Drought','abiotic','induced','transgenic'],['Oxidative stress','abiotic','induced','expression'],
+           ['Blast disease','biotic','induced','expression']]},
+    {sym:'OsLEA3',msu:'LOC_Os05g46480',rap:'Os05g0542500',fam:'LEA group 3',chr:5,
+     syn:['OsLEA3-1'],
+     desc:'Group 3 late-embryogenesis-abundant protein; induced by drought, salt and ABA but not by cold; overexpression raised relative yield under field drought',
+     resp:[['Drought','abiotic','induced','transgenic'],['Salinity','abiotic','induced','expression'],
+           ['Cold','abiotic','unchanged','expression']]},
+    {sym:'OsP5CS1',msu:'LOC_Os05g38150',rap:'Os05g0455500',fam:'P5C synthetase',chr:5,
+     syn:['OsP5CS'],
+     desc:'Proline biosynthesis enzyme; induced by high salt, dehydration, ABA and cold, but not by heat treatment',
+     resp:[['Salinity','abiotic','induced','expression'],['Drought','abiotic','induced','expression'],
+           ['Cold','abiotic','induced','expression'],['Heat','abiotic','unchanged','expression']]},
+    {sym:'OsNCED4',msu:'LOC_Os07g05940',rap:'',fam:'NCED (ABA biosynthesis)',chr:7,
+     syn:[],
+     desc:'9-cis-epoxycarotenoid dioxygenase in ABA biosynthesis; regulated downstream of stress-responsive MYB and DUF966 factors',
+     resp:[['Drought','abiotic','induced','expression'],['Salinity','abiotic','induced','expression']]},
+    {sym:'Sub1B',msu:'LOC_Os09g11480',rap:'Os09g0287000',fam:'AP2/ERF',chr:9,
+     syn:[],
+     desc:'One of three ERF genes at the Sub1 locus (Sub1A, Sub1B, Sub1C); Sub1A was identified as the major determinant of submergence tolerance',
+     resp:[['Submergence','abiotic','induced','qtl']]},
+    {sym:'OsEIL1',msu:'LOC_Os03g20790',rap:'',fam:'EIN3-like',chr:3,
+     syn:[],
+     desc:'Ethylene-insensitive-3-like transcription factor; associated with submergence stress response',
+     resp:[['Submergence','abiotic','induced','expression']]},
+    {sym:'OsSAPK4',msu:'LOC_Os01g64970',rap:'',fam:'SnRK2 kinase',chr:1,
+     syn:[],
+     desc:'Stress/ABA-activated protein kinase associated with salt stress response',
+     resp:[['Salinity','abiotic','induced','transgenic']]},
+    {sym:'OsASR5',msu:'LOC_Os11g06720',rap:'',fam:'ASR',chr:11,
+     syn:[],
+     desc:'Abscisic acid stress and ripening protein 5; associated with drought stress response',
+     resp:[['Drought','abiotic','induced','transgenic']]},
+    {sym:'OsiSAP8',msu:'LOC_Os06g41010',rap:'',fam:'Zinc-finger (SAP)',chr:6,
+     syn:[],
+     desc:'Stress-associated protein 8; associated with cold stress response',
+     resp:[['Cold','abiotic','induced','transgenic']]}
+  ];
+
+  var el={text:document.getElementById('qtext'),cat:document.getElementById('qcat'),
+          stress:document.getElementById('qstress'),fam:document.getElementById('qfam'),
+          dir:document.getElementById('qdir')};
+  var res=document.getElementById('qresult');
+  var stat={genes:document.getElementById('s-genes'),rows:document.getElementById('s-rows'),
+            cond:document.getElementById('s-cond'),both:document.getElementById('s-both')};
+  var svg=document.getElementById('qchart'), NS='http://www.w3.org/2000/svg';
+  var sqlbtn=document.getElementById('sqlbtn'), sqlbox=document.getElementById('sqlbox');
+
+  // populate selects
+  var conds={}, fams={};
+  GENES.forEach(function(g){ fams[g.fam]=1; g.resp.forEach(function(r){ conds[r[0]]=r[1]; }); });
+  Object.keys(conds).sort().forEach(function(c){
+    el.stress.appendChild(new Option(c+' ('+conds[c]+')', c));
+  });
+  Object.keys(fams).sort().forEach(function(f){ el.fam.appendChild(new Option(f,f)); });
+
+  function matches(){
+    var t=el.text.value.trim().toLowerCase(), cat=el.cat.value,
+        st=el.stress.value, fam=el.fam.value, dir=el.dir.value;
+    var out=[];
+    GENES.forEach(function(g){
+      if(fam && g.fam!==fam) return;
+      if(t){
+        var hay=[g.sym,g.msu,g.rap].concat(g.syn).join(' ').toLowerCase();
+        if(hay.indexOf(t)<0) return;
+      }
+      var rows=g.resp.filter(function(r){
+        if(cat && r[1]!==cat) return false;
+        if(st && r[0]!==st) return false;
+        if(dir && r[2]!==dir) return false;
+        return true;
+      });
+      if(!rows.length) return;
+      out.push({g:g, rows:rows});
+    });
+    return out;
+  }
+
+  function esc(s){ return String(s).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]}); }
+
+  function render(){
+    var m=matches();
+    // table
+    if(!m.length){
+      res.innerHTML='<table><tbody><tr><td>No records match this filter. Try Reset.</td></tr></tbody></table>';
+    } else {
+      var h='<table><thead><tr><th>Symbol</th><th>MSU locus</th><th>Family</th><th>Chr</th>'+
+            '<th>Stress conditions (direction · evidence)</th><th>Category</th><th>Synonyms</th></tr></thead><tbody>';
+      m.forEach(function(x){
+        var cats={}; x.rows.forEach(function(r){cats[r[1]]=1});
+        h+='<tr><td><strong>'+esc(x.g.sym)+'</strong><div style="color:var(--text-muted);font-size:.85em;margin-top:3px">'+esc(x.g.desc)+'</div></td>'+
+           '<td><code>'+esc(x.g.msu)+'</code>'+(x.g.rap?'<br><code style="font-size:.9em">'+esc(x.g.rap)+'</code>':'')+'</td>'+
+           '<td>'+esc(x.g.fam)+'</td><td>'+x.g.chr+'</td><td>'+
+           x.rows.map(function(r){return esc(r[0])+' <span style="color:var(--text-muted)">('+r[2]+' · '+r[3]+')</span>'}).join('<br>')+
+           '</td><td>'+Object.keys(cats).join(' + ')+'</td><td>'+(x.g.syn.length?esc(x.g.syn.join(', ')):'—')+'</td></tr>';
+      });
+      res.innerHTML=h+'</tbody></table>';
+    }
+    // stats
+    var rowN=0, cset={}, bothN=0;
+    m.forEach(function(x){
+      rowN+=x.rows.length;
+      var a=false,b=false;
+      x.rows.forEach(function(r){ cset[r[0]]=r[1]; if(r[1]==='abiotic')a=true; else b=true; });
+      // "both" judged on the gene's full record, not the filtered subset
+      var fa=false, fb=false;
+      x.g.resp.forEach(function(r){ if(r[1]==='abiotic')fa=true; else fb=true; });
+      if(fa&&fb) bothN++;
+    });
+    stat.genes.textContent=m.length;
+    stat.rows.textContent=rowN;
+    stat.cond.textContent=Object.keys(cset).length;
+    stat.both.textContent=bothN;
+    drawChart(cset,m);
+    if(!sqlbox.hidden) sqlbox.innerHTML=sqlHTML();
+  }
+
+  function drawChart(cset,m){
+    while(svg.childNodes.length>1) svg.removeChild(svg.lastChild);
+    var names=Object.keys(cset).sort(function(a,b){return cset[a]===cset[b]?a.localeCompare(b):(cset[a]<cset[b]?-1:1)});
+    var counts=names.map(function(n){
+      return m.filter(function(x){return x.rows.some(function(r){return r[0]===n})}).length;
+    });
+    if(!names.length){
+      svg.appendChild(mk('text',{x:20,y:30,'class':'axis-label'},'No conditions in the current result set.'));
+      return;
+    }
+    var W=740,H=260,L=140,R=56,T=14,B=30;
+    var max=Math.max.apply(null,counts)||1;
+    var band=(H-T-B)/names.length;
+    var bh=Math.min(22,band-8);
+    names.forEach(function(n,i){
+      var y=T+i*band+(band-bh)/2;
+      var w=(counts[i]/max)*(W-L-R);
+      svg.appendChild(mk('text',{x:L-10,y:y+bh/2+4,'class':'axis-label','text-anchor':'end'},n));
+      // 4px rounded data-end, anchored to the baseline at x=L
+      svg.appendChild(mk('rect',{x:L,y:y,width:Math.max(2,w),height:bh,rx:4,
+        fill:cset[n]==='abiotic'?'var(--series-1)':'var(--series-2)'}));
+      svg.appendChild(mk('text',{x:L+Math.max(2,w)+8,y:y+bh/2+4,'class':'value-label'},counts[i]));
+    });
+    svg.appendChild(mk('line',{x1:L,x2:L,y1:T,y2:H-B,'class':'axis-line'}));
+    svg.appendChild(mk('text',{x:L,y:H-8,'class':'axis-title'},'Genes in result set'));
+  }
+
+  function mk(t,a,x){var n=document.createElementNS(NS,t);for(var k in a)n.setAttribute(k,a[k]);if(x!==undefined)n.textContent=x;return n}
+
+  function sqlHTML(){
+    var w=[], p=[];
+    if(el.text.value.trim()){
+      w.push("(g.primary_symbol LIKE ? OR g.msu_locus LIKE ? OR g.rap_locus LIKE ? OR y.synonym LIKE ?)");
+      p.push("'%"+el.text.value.trim()+"%' ×4");
+    }
+    if(el.cat.value){ w.push("s.category = ?"); p.push("'"+el.cat.value+"'"); }
+    if(el.stress.value){ w.push("s.stress_name = ?"); p.push("'"+el.stress.value+"'"); }
+    if(el.fam.value){ w.push("g.gene_family = ?"); p.push("'"+el.fam.value+"'"); }
+    if(el.dir.value){ w.push("r.direction = ?"); p.push("'"+el.dir.value+"'"); }
+    var sql='SELECT DISTINCT g.primary_symbol, g.msu_locus, g.rap_locus, g.gene_family,\n'+
+            '       g.chromosome, s.stress_name, s.category, r.direction, r.evidence\n'+
+            'FROM genes g\n'+
+            'JOIN gene_stress_response r ON r.gene_id   = g.gene_id\n'+
+            'JOIN stress_conditions    s ON s.stress_id = r.stress_id\n'+
+            'LEFT JOIN gene_synonyms   y ON y.gene_id   = g.gene_id\n'+
+            (w.length ? 'WHERE '+w.join('\n  AND ')+'\n' : '')+
+            'ORDER BY g.primary_symbol, s.category, s.stress_name;';
+    return '<pre><code>'+esc(sql)+'</code></pre>'+
+      (p.length?'<p style="font-size:.85rem;color:var(--text-secondary);margin:10px 0 0">Bound parameters: '+esc(p.join(' · '))+
+      '. Parameters are bound, never interpolated - the same reason the production interface used prepared statements.</p>'
+      :'<p style="font-size:.85rem;color:var(--text-secondary);margin:10px 0 0">No filters applied, so no bound parameters.</p>');
+  }
+
+  Object.keys(el).forEach(function(k){
+    el[k].addEventListener('input',render);
+    el[k].addEventListener('change',render);
+  });
+  document.getElementById('qreset').addEventListener('click',function(){
+    el.text.value=''; el.cat.value=''; el.stress.value=''; el.fam.value=''; el.dir.value=''; render();
+  });
+  sqlbtn.addEventListener('click',function(){
+    sqlbox.hidden=!sqlbox.hidden;
+    sqlbtn.setAttribute('aria-expanded',String(!sqlbox.hidden));
+    sqlbtn.textContent=sqlbox.hidden?'Show the SQL for this filter':'Hide the SQL';
+    if(!sqlbox.hidden) sqlbox.innerHTML=sqlHTML();
+  });
+  render();
+})();
+</script>
+</body></html>

@@ -1,0 +1,343 @@
+# Content for the Dalbergia latifolia genome characterization walkthrough.
+# The SSR finder on slide 3 is a real implementation of perfect-tandem-repeat
+# detection - it runs on whatever sequence the user pastes in. The bundled
+# example sequence is synthetic and labelled as such; conservation-genetics and
+# genome facts are cited on the final slide.
+
+PAGE = {
+    "number": "07",
+    "category": "Forest genomics",
+    "card_title": "Dalbergia latifolia genome characterization",
+    "card_blurb": "Marker discovery in a vulnerable, heavily trafficked rosewood - with a working microsatellite finder you can run on any sequence you paste in.",
+    "cta": "Open SSR finder",
+    "tags": ["Genome analysis", "SSR/SNP", "Conservation genetics"],
+    "meta": "Genomic characterization of Dalbergia latifolia (Indian rosewood): SSR and SNP marker discovery, variant analysis, and applications in diversity assessment, conservation genetics and timber traceability.",
+    "headline": "A tree worth more cut down<br>than standing. <em>Markers change that.</em>",
+    "sub": "Dalbergia latifolia - Indian rosewood, Bombay blackwood, sonokeling - is a premier timber species assessed as globally Vulnerable and listed on CITES Appendix II, with illegal logging driven by international demand. This project covered SSR and SNP marker discovery from genomic data, and the markers matter because they are what make a diversity claim, a provenance claim or a seizure identification testable.",
+    "pills": [
+        ("Forest Research Institute, Dehradun",),
+        ("Bioinformatics internship",),
+        ("IUCN Vulnerable · CITES App. II",),
+        ("Working SSR tool", "solid"),
+    ],
+    "note": "<strong>About the tool on slide 3:</strong> the microsatellite finder is a real implementation of perfect-tandem-repeat detection and it runs entirely in your browser on whatever sequence you paste in - try a real FASTA sequence of your own. The example sequence provided as a default is <em>synthetic</em>, constructed to contain known repeats so the tool's behaviour is demonstrable; it is not <em>D. latifolia</em> sequence.",
+    "footer_note": "Marker discovery walkthrough · tool code in workflows/ssr_finder/",
+    "code": "workflows/ssr_finder/README.md",
+    "slides": [
+        {
+            "eyebrow": "01 · Context",
+            "title": "Why this species, and why genomics",
+            "body": """      <p class="lede">The conservation problem here is not obscurity. It is that the species is extremely valuable, slow-growing, and regenerates poorly - so demand outruns recovery.</p>
+      <div class="cols">
+        <div class="panel sand">
+          <h3>Status and pressure</h3>
+          <ul>
+            <li>Native to low-elevation tropical monsoon forests of southern and eastern India; also present in Java and Nusa Tenggara, where it is known as <strong>sonokeling</strong></li>
+            <li>Assessed as <strong>globally Vulnerable</strong> on the IUCN Red List, under criteria A1cd</li>
+            <li>Listed on <strong>CITES Appendix II</strong></li>
+            <li>India has banned the export of logs and sawn wood from the species</li>
+            <li>Key threats in India: inadequate regeneration and slow growth against rising commercial demand</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>What genomic markers are actually for</h3>
+          <ul>
+            <li><strong>Diversity assessment</strong> - is a remaining population genetically depauperate, or still diverse enough to be a seed source?</li>
+            <li><strong>Provenance and traceability</strong> - DNA fingerprinting to test whether a timber consignment matches a claimed legal origin</li>
+            <li><strong>Breeding and seed-source selection</strong> - identifying genetically distinct material for plantation programmes</li>
+            <li><strong>Non-detriment findings</strong> - the baseline data CITES decisions require</li>
+          </ul>
+        </div>
+      </div>
+      <div class="takeaway"><strong>The link worth making explicit:</strong> marker discovery is not an academic exercise bolted onto conservation. A CITES Appendix II listing creates a legal need to distinguish legal from illegal material, and that need is answered with genetics or it is not answered at all.</div>""",
+        },
+        {
+            "eyebrow": "02 · The markers",
+            "title": "SSRs and SNPs do different jobs",
+            "body": """      <p>Both are variants. They are not interchangeable, and choosing between them is the first real decision in a marker project.</p>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th></th><th>SSRs (microsatellites)</th><th>SNPs</th></tr></thead>
+        <tbody>
+          <tr><td><strong>What they are</strong></td><td>Short tandem repeats - e.g. <code>(AG)₁₂</code> - varying in repeat number between individuals</td><td>Single-base differences at a defined position</td></tr>
+          <tr><td><strong>Information per locus</strong></td><td>High - multi-allelic, often many alleles per locus</td><td>Low - usually two alleles</td></tr>
+          <tr><td><strong>Number available</strong></td><td>Thousands</td><td>Hundreds of thousands to millions</td></tr>
+          <tr><td><strong>Assay</strong></td><td>PCR with flanking primers, size separation - cheap per sample, no sequencing needed</td><td>Sequencing or genotyping array - higher setup cost, cheaper at scale</td></tr>
+          <tr><td><strong>Best for</strong></td><td>Parentage, individual identification, population structure on a modest budget, field-deployable traceability</td><td>Genome-wide diversity, selection scans, fine-scale structure, high-throughput work</td></tr>
+          <tr><td><strong>Weakness</strong></td><td>Homoplasy - identical allele sizes with different mutational histories; genotyping requires care across labs</td><td>Needs reference resources and compute; each locus carries little information alone</td></tr>
+        </tbody>
+      </table></div>
+      <p style="margin-top:20px">For a species where enforcement labs in range states may need to run assays cheaply and repeatably, SSRs remain genuinely practical. A handful of well-chosen SSR loci can individually identify a tree, which is exactly what a timber-provenance case requires - and the assay needs a thermocycler, not a sequencer.</p>
+      <div class="takeaway"><strong>Project reasoning:</strong> discover both from genomic data, but prioritise SSRs for deployability. The best marker is not the most informative one in principle; it is the most informative one the people who need it can actually run.</div>""",
+        },
+        {
+            "eyebrow": "03 · Interactive",
+            "title": "Find microsatellites in a sequence",
+            "body": """      <p>This is the first step of SSR marker development, implemented properly: scan a sequence for perfect tandem repeats meeting minimum repeat thresholds per motif length. Paste in your own FASTA or raw sequence, or use the synthetic default.</p>
+
+      <div class="demo viz">
+        <div class="demo-head">
+          <h3>Perfect tandem repeat (SSR) finder</h3>
+          <span class="tag">Real algorithm · runs in your browser</span>
+        </div>
+        <div class="demo-body">
+          <div class="controls">
+            <label class="control" style="flex:1 1 100%">Sequence (FASTA or raw; non-ACGT characters ignored)
+              <textarea id="seq" rows="5" style="font:inherit;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.82rem;padding:10px;border:1px solid var(--line);border-radius:9px;width:100%;resize:vertical"></textarea>
+            </label>
+          </div>
+          <div class="controls">
+            <label class="control">Min repeats, mono
+              <input type="number" id="m1" min="4" max="30" value="12" style="width:90px">
+            </label>
+            <label class="control">di
+              <input type="number" id="m2" min="3" max="30" value="6" style="width:90px">
+            </label>
+            <label class="control">tri
+              <input type="number" id="m3" min="3" max="30" value="5" style="width:90px">
+            </label>
+            <label class="control">tetra
+              <input type="number" id="m4" min="3" max="30" value="5" style="width:90px">
+            </label>
+            <label class="control">penta
+              <input type="number" id="m5" min="3" max="30" value="4" style="width:90px">
+            </label>
+            <label class="control">hexa
+              <input type="number" id="m6" min="3" max="30" value="4" style="width:90px">
+            </label>
+            <button class="button sm primary" id="run">Find SSRs</button>
+            <button class="button sm light" id="demo">Load synthetic example</button>
+          </div>
+
+          <div class="readout">
+            <div><b id="r-len">-</b><small>Sequence length (bp)</small></div>
+            <div><b id="r-n">-</b><small>SSRs found</small></div>
+            <div><b id="r-dens">-</b><small>SSRs per kb</small></div>
+            <div><b id="r-top">-</b><small>Most common motif class</small></div>
+            <div><b id="r-gc">-</b><small>GC content</small></div>
+          </div>
+
+          <figure>
+            <svg id="mchart" viewBox="0 0 740 220" role="img" aria-labelledby="mchart-t">
+              <title id="mchart-t">Count of microsatellites found by motif length class</title>
+            </svg>
+            <figcaption>Microsatellites found per motif-length class, counts labelled on each bar. Mononucleotide repeats are frequently excluded from marker panels because they are hard to genotype reliably - the threshold controls above let you see that effect directly.</figcaption>
+          </figure>
+
+          <div class="tbl-scroll" id="ssrtable" style="margin-top:4px"></div>
+        </div>
+      </div>
+
+      <div class="takeaway"><strong>What to notice:</strong> lower the di-nucleotide threshold from 6 to 3 and the count explodes. Thresholds are not a technical detail - they decide what counts as a microsatellite, and any SSR count quoted without its thresholds is uninterpretable. That is why tools like MISA require them to be declared up front.</div>""",
+        },
+        {
+            "eyebrow": "04 · From repeat to marker",
+            "title": "What happens after the scan",
+            "body": """      <p>Finding a repeat is the easy part. A usable marker needs several more steps, each of which eliminates candidates.</p>
+      <div class="flow">
+        <div class="flow-step"><b>Step 1</b><span>Detect perfect repeats above threshold (the tool on slide 3)</span></div>
+        <div class="flow-step"><b>Step 2</b><span>Require sufficient unique flanking sequence on both sides</span></div>
+        <div class="flow-step"><b>Step 3</b><span>Design primers in the flanks - Primer3, with Tm and GC constraints</span></div>
+        <div class="flow-step"><b>Step 4</b><span>Check primer specificity against the genome; discard multi-locus hits</span></div>
+        <div class="flow-step"><b>Step 5</b><span>Wet-lab validation - amplification success across individuals</span></div>
+        <div class="flow-step"><b>Step 6</b><span>Polymorphism screening on a diversity panel</span></div>
+      </div>
+      <h3 style="margin-top:26px">The attrition is severe, and that is normal</h3>
+      <p>Most detected repeats never become markers. Candidates are lost because flanking sequence is repetitive and primers cannot be placed uniquely; because primers amplify multiple loci in a genome with a high repeat fraction; because amplification fails or is inconsistent; and - most often - because the locus turns out to be monomorphic in the populations of interest. A marker that does not vary tells you nothing, however clean the assay.</p>
+      <div class="cols" style="margin-top:22px">
+        <div class="panel">
+          <h3>SNP discovery in parallel</h3>
+          <p>The same genomic data supports variant calling: align reads to the assembly, call variants, then filter hard on depth, quality, missingness and allele balance. Filtering is where SNP projects are won or lost - an unfiltered call set is mostly alignment artefacts around repeats and indels.</p>
+        </div>
+        <div class="panel">
+          <h3>Why a reference matters so much here</h3>
+          <p>Marker development is far easier with a genome assembly: you can check primer uniqueness, place markers in physical space, and distinguish paralogues from alleles. A <em>D. latifolia</em> de-novo assembly has since been reported - 22,319 contigs totalling 613.95 Mb with high completeness - and for the related <em>D. sissoo</em> a chromosome-scale assembly of 660.37 Mb across 10 pseudochromosomes with 29,737 protein-coding genes.</p>
+        </div>
+      </div>
+      <div class="takeaway"><strong>What I would tell myself at the start of this project:</strong> budget for attrition from the beginning. Report "n loci screened, m polymorphic" rather than the number of repeats the scan found, because the first number is work and the second is the only one that matters.</div>""",
+        },
+        {
+            "eyebrow": "05 · Application",
+            "title": "Markers as an enforcement tool",
+            "body": """      <p>This is the part of the project I found most compelling, and it is a straightforwardly operational argument.</p>
+      <div class="cols">
+        <div class="panel blue">
+          <h3>The enforcement problem</h3>
+          <p>A CITES Appendix II listing means trade is permitted under permit. Enforcement therefore depends on verifying claims: that a consignment is the species declared, and that it came from where the paperwork says. Visual timber identification can reach genus but struggles with species, and says nothing at all about geographic origin.</p>
+        </div>
+        <div class="panel">
+          <h3>What genetics adds</h3>
+          <ul>
+            <li><strong>Species identification</strong> from wood, including processed material</li>
+            <li><strong>Population assignment</strong> - testing a sample against reference populations for a claimed origin</li>
+            <li><strong>Individual matching</strong> - linking a seized log to a specific stump</li>
+          </ul>
+          <p style="margin-top:10px">All three require a <strong>reference database</strong> of genotyped material from known locations. Indonesia has pursued exactly this: a non-detriment findings report combined with a DNA database for <em>D. latifolia</em> in Java and West Nusa Tenggara.</p>
+        </div>
+      </div>
+      <div class="note neutral" style="margin-top:20px"><strong>The honest limitation:</strong> none of this works without reference sampling. A marker panel with no georeferenced reference genotypes can confirm species but cannot test an origin claim. The bottleneck in timber forensics is almost never the markers - it is the fieldwork behind the reference database, which is slow, expensive and unglamorous.</div>
+      <div class="takeaway"><strong>Why this project sits in my portfolio:</strong> it is where I first saw a bioinformatics output land directly on a decision someone has to make - a customs officer with a container and a document that may or may not be true.</div>""",
+        },
+        {
+            "eyebrow": "06 · Sources",
+            "title": "References and tooling",
+            "body": """      <ul class="refs">
+        <li><strong><em>D. latifolia</em> conservation status: assessed globally Vulnerable on the IUCN Red List under criteria A1cd by the end of 2020; CITES Appendix II listing; India has banned export of logs and sawn wood; key threats of inadequate regeneration and slow growth under rising commercial demand, particularly from China</strong> - abstract of the <em>D. latifolia</em> de-novo genome report, <a href="https://www.bohrium.com/scholar/a11992029/Suresh_H.S." target="_blank" rel="noopener">record</a>; IUCN assessment: Lakhey, Pathak &amp; Adhikari (2020), <a href="https://www.iucnredlist.org/species/32098/67777757" target="_blank" rel="noopener">IUCN Red List</a>.</li>
+        <li><strong>Native range in low-elevation tropical monsoon forests of south-east India; common names including Bombay blackwood and East Indian rosewood; export of wild-harvested timber illegal under the Indian Forest Act, 1927; high international demand</strong> - <a href="https://en.wikipedia.org/wiki/Dalbergia_latifolia" target="_blank" rel="noopener">species summary</a>, citing the IUCN assessment and agroforestry sources.</li>
+        <li><strong>IUCN "Vulnerable" classification in 2016 and CITES Appendix II inclusion; slow-growing, usually single-stemmed habit; rising global rosewood prices driving overexploitation</strong> - "Cytological and Phenological Variability in <em>Dalbergia latifolia</em> Roxb: A Vulnerable Tree Species," <em>Silvae Genetica</em> (2024). <a href="https://doi.org/10.2478/sg-2024-0019" target="_blank" rel="noopener">doi:10.2478/sg-2024-0019</a>.</li>
+        <li><strong><em>D. latifolia</em> de-novo assembly: 22,319 contigs totalling 613.95 Mb with high completeness</strong> - as reported in the genome study record above.</li>
+        <li><strong><em>D. sissoo</em> chromosome-scale genome: estimated genome size 756.56 Mb, assembly 661.00 Mb, chromosome-level assembly 660.37 Mb across 10 pseudochromosomes, scaffold N50 56.15 Mb, BUSCO completeness 96.6%, GC content 33.59%, 29,737 protein-coding genes</strong> - Sahu et al., "Chromosome-scale genome of Indian rosewood (<em>Dalbergia sissoo</em>)," <em>Frontiers in Plant Science</em> 14:1218515 (2023). <a href="https://doi.org/10.3389/fpls.2023.1218515" target="_blank" rel="noopener">doi:10.3389/fpls.2023.1218515</a>.</li>
+        <li><strong>DNA database and non-detriment findings work for <em>D. latifolia</em> (sonokeling) in Java and West Nusa Tenggara, Indonesia</strong> - CITES Tree Species Programme project document. <a href="https://www.cites-tsp.org/wp-content/uploads/2019/06/Indonesia-SSFA-no-budget_compressed.pdf" target="_blank" rel="noopener">Project summary</a>.</li>
+        <li><strong>Methods and tooling referenced:</strong> MISA for microsatellite identification (Thiel et al.), Primer3 for primer design (Untergasser et al.), BWA/Bowtie2 for alignment, GATK and bcftools for variant calling, BUSCO for assembly completeness assessment.</li>
+      </ul>
+      <div class="note neutral"><strong>Attribution:</strong> the genome assemblies and conservation assessments above are the work of the cited authors and institutions. My contribution was sequence-analysis and marker-discovery work during a bioinformatics internship at the Forest Research Institute, Dehradun, and the SSR implementation on slide 3, which I wrote for this portfolio.</div>""",
+        },
+    ],
+    "page_script": """<script>
+(function(){
+  'use strict';
+  var ta=document.getElementById('seq'), NS='http://www.w3.org/2000/svg';
+  var mins=[1,2,3,4,5,6].map(function(i){return document.getElementById('m'+i)});
+  var r={len:document.getElementById('r-len'),n:document.getElementById('r-n'),
+         dens:document.getElementById('r-dens'),top:document.getElementById('r-top'),
+         gc:document.getElementById('r-gc')};
+  var tbl=document.getElementById('ssrtable'), svg=document.getElementById('mchart');
+  var CLASS=['mono','di','tri','tetra','penta','hexa'];
+
+  // Synthetic demonstration sequence: random background with deliberately
+  // inserted perfect repeats so the detector's behaviour is visible.
+  function synthetic(){
+    var seed=20261109;
+    function rnd(){ seed=(seed*1103515245+12345)&0x7fffffff; return seed/0x7fffffff; }
+    var B='ACGT', s='';
+    function bg(n){ for(var i=0;i<n;i++) s+=B[Math.floor(rnd()*4)]; }
+    function rep(motif,n){ for(var i=0;i<n;i++) s+=motif; }
+    bg(120); rep('AG',14); bg(95); rep('AAT',9);  bg(140); rep('A',16);
+    bg(80);  rep('GATA',7); bg(110); rep('CT',11); bg(130); rep('AGGT',6);
+    bg(75);  rep('TTAGG',5); bg(160); rep('ACGTCA',4); bg(90); rep('TA',8);
+    bg(145); rep('CCG',7); bg(100);
+    return '>synthetic_demo_sequence  NOT Dalbergia sequence - constructed for this demo\\n'+
+           (s.match(/.{1,60}/g)||[]).join('\\n');
+  }
+
+  function clean(raw){
+    return raw.split(/\\r?\\n/).filter(function(l){return l[0]!=='>'}).join('')
+              .toUpperCase().replace(/[^ACGT]/g,'');
+  }
+
+  // Normalise a motif to its lexicographically smallest rotation so that
+  // (AG)n and (GA)n are reported as the same motif class.
+  function canon(m){
+    var best=m;
+    for(var i=1;i<m.length;i++){
+      var rot=m.slice(i)+m.slice(0,i);
+      if(rot<best) best=rot;
+    }
+    return best;
+  }
+  // A motif that is itself a repeat of a shorter unit is not a valid period.
+  function primitive(m){
+    for(var p=1;p<m.length;p++){
+      if(m.length%p) continue;
+      var unit=m.slice(0,p), ok=true;
+      for(var i=p;i<m.length;i+=p) if(m.slice(i,i+p)!==unit){ ok=false; break; }
+      if(ok) return false;
+    }
+    return true;
+  }
+
+  function findSSRs(seq,thresholds){
+    var hits=[], n=seq.length, covered=new Int8Array(n);
+    // Longer motifs first so a (AGGT)n is not consumed as overlapping di-repeats.
+    for(var p=6;p>=1;p--){
+      var need=thresholds[p-1];
+      if(!(need>=2)) continue;
+      var i=0;
+      while(i+p<=n){
+        var motif=seq.substr(i,p);
+        if(motif.length<p || !primitive(motif)){ i++; continue; }
+        var count=1, j=i+p;
+        while(j+p<=n && seq.substr(j,p)===motif){ count++; j+=p; }
+        if(count>=need){
+          var overlap=false;
+          for(var k=i;k<j;k++) if(covered[k]){ overlap=true; break; }
+          if(!overlap){
+            for(var k2=i;k2<j;k2++) covered[k2]=1;
+            hits.push({start:i+1,end:j,motif:motif,canon:canon(motif),
+                       count:count,len:j-i,cls:CLASS[p-1],period:p});
+          }
+          i=j;
+        } else { i++; }
+      }
+    }
+    hits.sort(function(a,b){return a.start-b.start});
+    return hits;
+  }
+
+  function mk(t,a,x){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(x!==undefined)e.textContent=x;return e}
+  function esc(s){return String(s).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})}
+
+  function chart(hits){
+    while(svg.childNodes.length>1) svg.removeChild(svg.lastChild);
+    var counts=CLASS.map(function(c){return hits.filter(function(h){return h.cls===c}).length});
+    var max=Math.max.apply(null,counts)||1;
+    var W=740,H=220,L=78,R=56,T=12,B=28;
+    var band=(H-T-B)/CLASS.length, bh=Math.min(18,band-6);
+    CLASS.forEach(function(c,i){
+      var y=T+i*band+(band-bh)/2, w=(counts[i]/max)*(W-L-R);
+      svg.appendChild(mk('text',{x:L-10,y:y+bh/2+4,'class':'axis-label','text-anchor':'end'},c));
+      svg.appendChild(mk('rect',{x:L,y:y,width:Math.max(2,w),height:bh,rx:4,fill:'var(--series-1)'}));
+      svg.appendChild(mk('text',{x:L+Math.max(2,w)+8,y:y+bh/2+4,'class':'value-label'},counts[i]));
+    });
+    svg.appendChild(mk('line',{x1:L,x2:L,y1:T,y2:H-B,'class':'axis-line'}));
+    svg.appendChild(mk('text',{x:L,y:H-8,'class':'axis-title'},'SSRs found by motif class'));
+  }
+
+  function run(){
+    var seq=clean(ta.value);
+    var thr=mins.map(function(el){return Math.max(2,parseInt(el.value,10)||2)});
+    if(!seq.length){
+      tbl.innerHTML='<table><tbody><tr><td>Paste a sequence above, or load the synthetic example.</td></tr></tbody></table>';
+      r.len.textContent='0'; r.n.textContent='0'; r.dens.textContent='0'; r.top.textContent='—'; r.gc.textContent='—';
+      chart([]);
+      return;
+    }
+    var hits=findSSRs(seq,thr);
+    var gc=(seq.match(/[GC]/g)||[]).length/seq.length*100;
+    r.len.textContent=seq.length.toLocaleString();
+    r.n.textContent=hits.length;
+    r.dens.textContent=(hits.length/(seq.length/1000)).toFixed(2);
+    r.gc.textContent=gc.toFixed(1)+'%';
+    var byCls={};
+    hits.forEach(function(h){ byCls[h.cls]=(byCls[h.cls]||0)+1 });
+    var top=Object.keys(byCls).sort(function(a,b){return byCls[b]-byCls[a]})[0];
+    r.top.textContent=top?top+' ('+byCls[top]+')':'—';
+
+    if(!hits.length){
+      tbl.innerHTML='<table><tbody><tr><td>No repeats met these thresholds. Try lowering them.</td></tr></tbody></table>';
+    } else {
+      var h='<table><thead><tr><th>#</th><th>Start</th><th>End</th><th>Motif</th><th>Class</th>'+
+            '<th>Repeats</th><th>Length (bp)</th><th>Normalised motif</th><th>Flank available</th></tr></thead><tbody>';
+      hits.forEach(function(x,i){
+        var lf=x.start-1, rf=seq.length-x.end;
+        var usable=(lf>=100&&rf>=100);
+        h+='<tr><td>'+(i+1)+'</td><td>'+x.start+'</td><td>'+x.end+'</td>'+
+           '<td><code>('+esc(x.motif)+')'+x.count+'</code></td><td>'+x.cls+'</td>'+
+           '<td>'+x.count+'</td><td>'+x.len+'</td><td><code>'+esc(x.canon)+'</code></td>'+
+           '<td class="'+(usable?'ok':'flag')+'">'+lf+' / '+rf+' bp'+(usable?'':' — too short')+'</td></tr>';
+      });
+      tbl.innerHTML=h+'</tbody></table>'+
+        '<p style="font-size:.85rem;color:var(--text-secondary);padding:12px 14px;margin:0">'+
+        'The flank column is the practical filter: primer design needs roughly 100 bp of unique sequence on both sides, '+
+        'so repeats near a contig end are detected but not usable as markers.</p>';
+    }
+    chart(hits);
+  }
+
+  document.getElementById('run').addEventListener('click',run);
+  document.getElementById('demo').addEventListener('click',function(){ ta.value=synthetic(); run(); });
+  mins.forEach(function(el){ el.addEventListener('change',run) });
+  ta.value=synthetic();
+  run();
+})();
+</script>""",
+}

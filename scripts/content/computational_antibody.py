@@ -1,0 +1,368 @@
+# Content for the Regenova computational / quantum-oriented antibody design
+# walkthrough, including the TRACE hybrid quantum-classical platform and the
+# SARS-CoV-2 programme.
+#
+# DISCLOSURE LEVEL (set deliberately, confirmed with Gopi 2026-11-09):
+#   - TRACE is named as a hybrid quantum-classical platform. No architecture,
+#     no methods, no results, no performance claims.
+#   - The SARS-CoV-2 abstract is described as in preparation. Nothing from it
+#     appears here, because publishing ahead of submission can breach a
+#     conference's prior-disclosure rule.
+#   - The computational partner is NOT named.
+#   - All science below is from the published literature and cited.
+
+PAGE = {
+    "number": "04",
+    "category": "Computational discovery",
+    "card_title": "Computational & quantum antibody design",
+    "home_title": "Computational &amp; quantum antibody design · TRACE",
+    "card_blurb": "Work at Regenova across pan-filovirus, Lassa and SARS-CoV-2 targets, built on the TRACE hybrid quantum-classical platform - plus a scorecard for judging any quantum-computing claim in drug discovery.",
+    "cta": "Open deck + scorecard",
+    "demo_label": "Score a quantum claim",
+    "tags": ["Antibody discovery", "TRACE platform", "Quantum-classical", "Due diligence"],
+    "meta": "Computational and quantum-oriented antibody design at Regenova: pan-filovirus, Lassa and SARS-CoV-2 programmes, the TRACE hybrid quantum-classical platform, and a framework for evaluating quantum claims in drug discovery.",
+    "headline": "The conserved epitope is the prize.<br><em>Finding it is a search problem.</em>",
+    "sub": "My work at Regenova Pharma sits where computational therapeutic discovery meets business operations - across broadly neutralizing antibody programmes for pan-filovirus, Lassa and SARS-CoV-2 targets, built on TRACE, a hybrid quantum-classical platform. This walkthrough covers the published science that frames those targets, how the design problem is actually posed, and the part I think is most transferable: how to judge a quantum-computing claim in this field without either dismissing it or buying it.",
+    "pills": [
+        ("Regenova Pharma · current", "solid"),
+        ("TRACE · hybrid quantum-classical", "accent"),
+        ("Pan-filovirus · Lassa · SARS-CoV-2",),
+        ("Published literature only",),
+    ],
+    "note": "<strong>What this page deliberately does not contain:</strong> TRACE's architecture or methods, candidate sequences or molecules, pipeline status, results, performance claims, partner identities or commercial terms. The SARS-CoV-2 abstract is in preparation and <em>nothing from it appears here</em> - publishing ahead of submission risks a conference's prior-disclosure rule and is not mine to do. Everything scientific below is drawn from the <strong>published</strong> literature and cited on the final slide. To discuss the work itself, that is a conversation for a call under appropriate terms.",
+    "footer_note": "Published literature only · no confidential detail",
+    "slides": [
+        {
+            "eyebrow": "01 · Position",
+            "title": "What I actually do here, stated plainly",
+            "body": """      <p class="lede">I am a Business Development and Operations Management intern at an AI-driven drug discovery company. I am not the computational scientist designing the molecules.</p>
+      <p>I lead with that because portfolios in this field routinely blur it. What I do is sit close enough to the science to evaluate it, translate it, and carry it to the people who decide whether it gets funded or partnered.</p>
+      <div class="cols">
+        <div class="panel lime">
+          <h3>What I own</h3>
+          <ul>
+            <li>Partner identification and evaluation across industry and academia</li>
+            <li>Competitive and market landscape research in biotherapeutics, AI-enabled discovery, oncology and infectious disease</li>
+            <li>Support for scientific-commercial due diligence</li>
+            <li>Translating technical programmes into partnership, proposal and commercialization narratives</li>
+            <li>Outreach - 20+ industry and 50+ academic engagements</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>What I contribute to without owning</h3>
+          <ul>
+            <li>The TRACE platform and the computational approaches themselves</li>
+            <li>Target selection and candidate design</li>
+            <li>Experimental validation</li>
+          </ul>
+          <p style="margin-top:12px">On the SARS-CoV-2 programme I am working on a <strong>conference abstract</strong> built around TRACE, and preparing the inputs a computational partner needs to generate the antigen-antibody interaction for the scenario. That is scientific-communication and coordination work, and I describe it as such.</p>
+        </div>
+      </div>
+      <div class="takeaway"><strong>Why this still belongs in a science portfolio:</strong> the skill on display is reading primary literature in a hard area accurately enough to assess claims about it, and then rendering those claims for an audience that cannot check them. The next four slides are that skill, applied to public science.</div>""",
+        },
+        {
+            "eyebrow": "02 · The programmes",
+            "title": "Three target families, one strategy",
+            "body": """      <p>The programmes I support differ in virus and in urgency, but they ask the same question: where on this pathogen's surface is a site that <em>cannot cheaply change</em>, and can an antibody be found or designed to bind it?</p>
+      <div class="cols three">
+        <div class="panel sand">
+          <h3>Pan-filovirus</h3>
+          <p>Ebola, Marburg and relatives. Two monoclonal antibody therapies are approved for <em>Zaire ebolavirus</em> specifically; efficacy against other species in the <em>Ebolavirus</em> and <em>Marburgvirus</em> genera has not been established. "Pan-filovirus" is the goal of closing that gap.</p>
+        </div>
+        <div class="panel blue">
+          <h3>Lassa virus</h3>
+          <p>100,000-300,000 estimated infections annually in West Africa, no licensed vaccine, limited treatment. The glycoprotein target is unstable, glycan-shielded and sequence-diverse across lineages.</p>
+        </div>
+        <div class="panel">
+          <h3>SARS-CoV-2</h3>
+          <p>The target where antigenic escape has been demonstrated at the largest scale, in real time, against deployed therapeutics. Slide 4 is what that escape actually did to the mAb class.</p>
+        </div>
+      </div>
+      <h3 style="margin-top:26px">TRACE</h3>
+      <p>The computational work runs on <strong>TRACE</strong>, a hybrid quantum-classical platform for antibody discovery. I am naming the platform and its general class because that is what a reader needs to understand the shape of the work. I am not describing its architecture, its methods or its output, and the SARS-CoV-2 abstract that applies it is still in preparation.</p>
+      <div class="note neutral" style="margin-top:18px"><strong>On the word "hybrid":</strong> it is the load-bearing word, and slide 6 explains why. A hybrid quantum-classical design means classical computation does the physics and the scoring while a quantum or quantum-inspired solver attacks a well-isolated combinatorial sub-problem. That is a specific and checkable engineering claim, and a very different claim from "quantum computing designs the antibody."</div>""",
+        },
+        {
+            "eyebrow": "03 · Filoviruses & Lassa",
+            "title": "Why these are hard targets",
+            "body": """      <p>Both are viral haemorrhagic fever agents, both with a single surface glycoprotein as the neutralization target, and both with the same structural problem: the parts of that glycoprotein the immune system sees easily are the parts that vary.</p>
+      <div class="cols">
+        <div class="panel sand">
+          <h3>Filoviruses</h3>
+          <p>A three-antibody cocktail was approved in October 2020 and a single antibody in December 2020, both targeting the viral glycoprotein, both for <em>Zaire ebolavirus</em>. Efficacy for other species in the <em>Ebolavirus</em> and <em>Marburgvirus</em> genera <strong>has not been established</strong> - an explicit limitation in the approved labelling, not an oversight.</p>
+        </div>
+        <div class="panel blue">
+          <h3>Lassa virus</h3>
+          <p>An Old World arenavirus. The glycoprotein complex trimer is unstable when expressed in soluble form, heavily glycosylated and therefore poorly immunogenic, and sequence-diverse across lineages. Neutralizing antibodies even in survivors tend to be low-titre and hard to elicit.</p>
+        </div>
+      </div>
+      <h3 style="margin-top:24px">The structural insight that makes it tractable</h3>
+      <p>Analysis of over a hundred antibodies from Lassa survivors found that most of the neutralizing response targets the <strong>quaternary assembly</strong> of the prefusion glycoprotein trimer, rather than either subunit in isolation. The antibody 37.7H, from a human survivor, neutralizes viruses representing all four known Lassa lineages and binds an epitope at the membrane-proximal base of the trimer spanning two neighbouring GP2 subunits - stabilising the prefusion state and blocking the conformational change fusion requires.</p>
+      <div class="takeaway"><strong>Pattern worth noticing:</strong> breadth comes from binding something structurally constrained, and the mechanism is often <em>preventing a conformational change</em> rather than blocking attachment. The same logic appears in influenza, which is the subject of the next project in this portfolio - and, as the next slide shows, in SARS-CoV-2.</div>""",
+        },
+        {
+            "eyebrow": "04 · SARS-CoV-2",
+            "title": "What Omicron did to the antibody class",
+            "body": """      <p class="lede">SARS-CoV-2 ran the escape experiment in public, at scale, against antibodies that were already deployed. The result is the strongest available evidence for the conserved-epitope strategy.</p>
+      <p>The Omicron variant carried <strong>37 amino acid substitutions in the spike protein, 15 of them in the receptor-binding domain</strong>. Against that shift, of 29 monoclonal antibodies directed at the receptor-binding motif, <strong>26 lost in vitro neutralizing activity</strong> — only three retained unaltered potency.</p>
+      <div class="cols" style="margin-top:22px">
+        <div class="panel">
+          <h3>What failed</h3>
+          <p>Antibodies targeting the <strong>receptor-binding motif</strong> - the obvious, immunodominant, highest-potency site, and the one the virus could afford to change. The commercial consequence was a therapeutic class being retired by viral evolution faster than it could be replaced.</p>
+        </div>
+        <div class="panel lime">
+          <h3>What held</h3>
+          <p>A fraction of broadly neutralizing sarbecovirus antibodies recognising antigenic sites <strong>outside the receptor-binding motif</strong> continued to neutralize Omicron - including sotrovimab, S2X259 and S2H97. The ACE2-mimicking antibody S2K146 was among the three retaining unaltered potency.</p>
+        </div>
+      </div>
+      <p style="margin-top:22px">Later work reinforced the same point: antibodies targeting the <strong>conserved, cryptic inner face</strong> of the RBD - a surface that crosses the ACE2 footprint and the CR3022 epitope - neutralize broadly across variants, and are capable of eliciting sarbecovirus-wide responses rather than SARS-CoV-2-specific ones.</p>
+      <div class="takeaway"><strong>Why this is the slide I would put in front of an investor:</strong> it is the one case where "target the conserved site" stopped being a structural argument and became a commercial post-mortem. The antibodies that bound the convenient surface are gone. The ones that bound the constrained surface are still working. Every programme on slide 2 is built on that lesson.</div>""",
+        },
+        {
+            "eyebrow": "05 · The design problem",
+            "title": "Antibody design as a search problem",
+            "body": """      <p>Strip away the biology and the computational task has a recognisable shape: an enormous discrete space, an expensive objective function, and multiple objectives that trade against each other. That shape is why a quantum-optimisation approach is even worth discussing.</p>
+      <div class="cols three">
+        <div class="panel">
+          <h3>Space</h3>
+          <p>The complementarity-determining regions alone span a combinatorial space that cannot be enumerated. Twenty amino acids across a few dozen positions exceeds exhaustive search by an astronomical margin.</p>
+        </div>
+        <div class="panel">
+          <h3>Objective</h3>
+          <p>Binding affinity to a specific conformational epitope - expensive to evaluate accurately, whether by physics-based simulation or at the bench.</p>
+        </div>
+        <div class="panel">
+          <h3>Constraints</h3>
+          <p>Breadth across lineages, developability, stability, expression yield, immunogenicity risk, freedom to operate. A high-affinity binder that cannot be manufactured is not a drug.</p>
+        </div>
+      </div>
+      <h3 style="margin-top:24px">Where computation genuinely earns its place today</h3>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>Task</th><th>Maturity</th><th>What it replaces</th></tr></thead>
+        <tbody>
+          <tr><td>Structure prediction of antibody-antigen complexes</td><td>Strong and improving fast</td><td>Months of structural work for a first hypothesis</td></tr>
+          <tr><td>Epitope conservation analysis across lineages</td><td>Mature - sequence and structure analysis</td><td>Guesswork about which surface to target</td></tr>
+          <tr><td>Library design and in-silico pre-screening</td><td>Useful - reduces what goes on the bench</td><td>A fraction of experimental screening burden</td></tr>
+          <tr><td>Developability and liability prediction</td><td>Reasonable triage, not decisive</td><td>Late-stage failures caught earlier</td></tr>
+          <tr><td>De-novo design of a broadly neutralizing antibody, end to end</td><td><strong>Not solved</strong></td><td>Nothing yet - experiment remains the arbiter</td></tr>
+        </tbody>
+      </table></div>
+      <div class="takeaway"><strong>The honest state of the art:</strong> computation is excellent at narrowing a search and generating hypotheses, and still cannot substitute for the wet-lab validation that decides whether a molecule neutralises anything. Any platform claim that skips that last row should be read carefully.</div>""",
+        },
+        {
+            "eyebrow": "06 · Quantum",
+            "title": "Where quantum actually enters - and where it does not",
+            "body": """      <p>This is the part of the field most prone to overstatement, so I want to be specific about the <em>mechanism</em> being proposed rather than gesture at "quantum."</p>
+      <div class="cols">
+        <div class="panel">
+          <h3>The formulation that makes it plausible</h3>
+          <p>Several design problems can be written as <strong>discrete optimisation</strong> - choose residues at positions to minimise an energy-like objective subject to constraints. That form maps onto QUBO / Ising formulations, which is the natural input for quantum annealing and for variational circuit approaches on gate-based hardware.</p>
+          <p style="margin-top:10px">So the interest is not mystical. Protein design has a shape that quantum optimisation research is aimed at, and a hybrid architecture is the sober way to exploit it.</p>
+        </div>
+        <div class="panel">
+          <h3>The reasons for caution</h3>
+          <ul>
+            <li><strong>Hardware scale and noise.</strong> Current devices handle problem sizes far below a realistic design space, and error rates matter.</li>
+            <li><strong>Encoding cost.</strong> Mapping a biophysically meaningful objective into a QUBO often loses the detail that made it meaningful.</li>
+            <li><strong>Classical competition.</strong> "Quantum-inspired" classical solvers, and well-tuned ordinary heuristics, frequently match or beat quantum hardware on these problems today.</li>
+            <li><strong>The objective is the bottleneck.</strong> If your energy function is inaccurate, searching it faster finds the wrong answer sooner.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="note neutral" style="margin-top:20px"><strong>My read, stated as my own opinion:</strong> the credible near-term story is exactly the hybrid one - classical models doing the physics and the scoring, with a quantum or quantum-inspired solver attacking a well-isolated combinatorial sub-problem, and experimental validation still deciding the answer. That is a meaningful engineering claim and it is the claim I am comfortable making in a partnership conversation. A claim that quantum computing designs antibodies end to end, today, is not one I would put in a deck, and I would say so internally before it reached a partner.</div>""",
+        },
+        {
+            "eyebrow": "07 · Interactive",
+            "title": "Score a quantum-in-discovery claim",
+            "body": """      <p>This is the working framework I apply when a partner, a vendor or a paper claims quantum advantage in a discovery context. Answer the seven questions for a claim in front of you and see where it lands.</p>
+
+      <div class="demo viz">
+        <div class="demo-head">
+          <h3>Due-diligence scorecard</h3>
+          <span class="tag">My framework · judgement aid, not a verdict</span>
+        </div>
+        <div class="demo-body">
+          <div id="qa"></div>
+
+          <div class="readout">
+            <div><b id="sc-score">0 / 21</b><small>Score</small></div>
+            <div><b id="sc-band">Unscored</b><small>Where it lands</small></div>
+            <div><b id="sc-red">0</b><small>Red flags</small></div>
+            <div><b id="sc-ans">0 / 7</b><small>Questions answered</small></div>
+          </div>
+
+          <figure>
+            <svg id="sc-chart" viewBox="0 0 740 260" role="img" aria-labelledby="sc-t">
+              <title id="sc-t">Score on each of the seven due-diligence questions</title>
+            </svg>
+            <figcaption>Score on each question, labelled directly. A red bar is a weak answer - one alone is enough to send a claim back for more information, whatever the total says.</figcaption>
+          </figure>
+          <div class="legend">
+            <span><i style="background:var(--series-1)"></i>Solid answer</span>
+            <span><i style="background:var(--series-3)"></i>Partial</span>
+            <span><i style="background:var(--series-2)"></i>Weak answer / red flag</span>
+          </div>
+          <button class="button sm light" id="sc-reset" style="margin-top:12px">Reset</button>
+        </div>
+      </div>
+
+      <div class="takeaway"><strong>Why a business-development role needs this:</strong> the person writing the partnership narrative is the last filter before a technical claim reaches an audience that cannot check it. Getting that filter wrong damages a company's credibility far more than a conservative claim ever would - and it is a good deal harder to repair.</div>""",
+        },
+        {
+            "eyebrow": "08 · Translation",
+            "title": "From a technical programme to a partnership narrative",
+            "body": """      <p>The operational half of my role is turning programmes like the ones on slide 2 into material a partner, funder or collaborator can act on. In practice that means answering four questions scientists often leave implicit.</p>
+      <div class="flow">
+        <div class="flow-step"><b>What is it</b><span>The mechanism, in one paragraph, accurate enough that a scientist would not wince</span></div>
+        <div class="flow-step"><b>Why now</b><span>What changed - structural data, model capability, funding environment, outbreak risk</span></div>
+        <div class="flow-step"><b>Why us</b><span>The specific asset: data, method, structural insight, or team</span></div>
+        <div class="flow-step"><b>What we need</b><span>The ask, sized and concrete - capability, capital, access or validation</span></div>
+      </div>
+      <h3 style="margin-top:26px">How I screen a potential partner</h3>
+      <ul>
+        <li><strong>Capability fit</strong> - do they have the thing we are missing, or only an adjacent interest?</li>
+        <li><strong>Stage fit</strong> - a group that works on validated candidates cannot help with a discovery-stage asset.</li>
+        <li><strong>Incentive fit</strong> - what does the partnership give <em>them</em>? Academic groups need publications; companies need programme value. If I cannot state their benefit, the outreach fails.</li>
+        <li><strong>Practicality</strong> - IP position, materials transfer, timelines, whether a conversation can realistically become an agreement.</li>
+      </ul>
+      <p>Of 20+ industry and academic partners screened, a small number advanced to further evaluation. The ratio is the point: most of the work in partnering is disqualifying good-looking options quickly and for stated reasons.</p>
+      <h3 style="margin-top:24px">Scientific communication</h3>
+      <p>The same discipline applies to writing. For the SARS-CoV-2 programme I am drafting a conference abstract, circulating it for scientific review before submission, and checking submission choices rather than deciding them alone. An abstract is the most compressed scientific writing there is - every sentence has to survive a reader who knows the field better than you do.</p>
+      <div class="takeaway"><strong>Operational lesson:</strong> a well-qualified "no" delivered in week one is worth more than a hopeful conversation that dies in month four. The same is true of a claim cut from an abstract before submission rather than defended after it.</div>""",
+        },
+        {
+            "eyebrow": "09 · Sources",
+            "title": "Published literature cited on this page",
+            "body": """      <p>Every scientific statement above traces to one of these public sources. None of them is Regenova work, and none of them is from the abstract in preparation.</p>
+      <ul class="refs">
+        <li><strong>Two FDA-approved monoclonal antibody therapies for <em>Zaire ebolavirus</em> (a three-antibody cocktail, October 2020; a single antibody, December 2020), both targeting the viral glycoprotein; efficacy not established against other <em>Ebolavirus</em> or <em>Marburgvirus</em> species</strong> - US CDC, <a href="https://www.cdc.gov/vhf/ebola/treatment/index.html" target="_blank" rel="noopener">Ebola treatment</a>; approval reporting via <a href="https://www.cidrap.umn.edu/news-perspective/2020/10/fda-approves-first-ebola-treatment" target="_blank" rel="noopener">CIDRAP</a> and the <a href="https://www.antibodysociety.org/?p=7015" target="_blank" rel="noopener">Antibody Society</a>.</li>
+        <li><strong>Structural basis for antibody-mediated neutralization of Lassa virus; 37.7H bound to the prefusion GPC trimer at 3.2 Å; the majority of the neutralizing response targeting the quaternary prefusion assembly rather than either subunit</strong> - Hastie et al., <em>Science</em> 356:923-928 (2017). <a href="https://doi.org/10.1126/science.aam7260" target="_blank" rel="noopener">doi:10.1126/science.aam7260</a>; PDB <a href="https://www.rcsb.org/structure/5VK2" target="_blank" rel="noopener">5VK2</a>.</li>
+        <li><strong>37.7H neutralizing viruses of all four known Lassa lineages; epitope at the membrane-proximal trimer base spanning two GP2 subunits; neutralization by stabilising the prefusion conformation</strong> - structural commentary, <a href="https://www.nature.com/articles/nsmb.3431" target="_blank" rel="noopener"><em>Nature Structural &amp; Molecular Biology</em></a> (2017).</li>
+        <li><strong>Lassa burden of ~100,000-300,000 infections annually; no licensed vaccine; GPC instability on soluble expression, dense glycan shield, sequence diversity across lineages requiring broadly neutralizing responses</strong> - Gorman et al., <em>Nature Communications</em> (2024), <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10767048" target="_blank" rel="noopener">PMC10767048</a>; Brouwer et al., <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9794196" target="_blank" rel="noopener">PMC9794196</a>.</li>
+        <li><strong>Omicron carrying 37 amino acid substitutions in spike, 15 in the RBD; 26 of 29 receptor-binding-motif-directed monoclonal antibodies losing in vitro neutralizing activity, with only three retaining unaltered potency including the ACE2-mimicking S2K146; broadly neutralizing sarbecovirus antibodies recognising sites outside the receptor-binding motif - sotrovimab, S2X259 and S2H97 - neutralizing Omicron</strong> - Cameroni et al., "Broadly neutralizing antibodies overcome SARS-CoV-2 Omicron antigenic shift," <em>Nature</em> (2022). <a href="https://pubmed.ncbi.nlm.nih.gov/34931194/" target="_blank" rel="noopener">PMID 34931194</a>.</li>
+        <li><strong>The conserved, cryptic RBD inner face crossing the ACE2 footprint and the CR3022 epitope, capable of eliciting broad anti-SARS-CoV-2 and sarbecovirus-specific antibodies</strong> - "Broad neutralizing antibody response of a monomeric spike-based SARS-CoV-2 bivalent vaccine against diverse variants," <em>PNAS</em> (2025). <a href="https://www.pnas.org/doi/10.1073/pnas.2503254122" target="_blank" rel="noopener">doi:10.1073/pnas.2503254122</a>.</li>
+      </ul>
+      <div class="note neutral"><strong>On the quantum assessment:</strong> slide 6 and the scorecard on slide 7 are my own analysis and opinion, informed by the general state of discrete-optimisation and variational-algorithm research rather than by any single paper. I present them as a framework for asking questions, not as a literature finding - and not as a description of how TRACE works.</div>""",
+        },
+    ],
+    "page_script": """<script>
+(function(){
+  'use strict';
+  var Q=[
+    {q:'What exactly is the quantum part?',
+     hint:'Name the sub-problem and its formulation.',
+     good:'A named sub-problem with a stated formulation (e.g. a QUBO over residue choices)',
+     mid:'A general area is named, but not the formulation',
+     bad:'"We use quantum machine learning across the pipeline"'},
+    {q:'What is the classical baseline?',
+     hint:'Compared against a well-tuned classical solver, not a naive one.',
+     good:'A tuned classical solver, with the comparison method stated',
+     mid:'Some classical comparison, method unclear',
+     bad:'"Classical methods cannot do this" - usually untrue and untried'},
+    {q:'Real hardware or simulator?',
+     hint:'And at what problem size?',
+     good:'Real hardware, problem size stated',
+     mid:'Simulator, clearly labelled as such',
+     bad:'Simulated results presented as hardware performance'},
+    {q:'Does it scale in the direction that matters?',
+     hint:'Problem size, not qubit count.',
+     good:'Scaling shown against problem size',
+     mid:'Scaling asserted but not demonstrated',
+     bad:'Qubit counts quoted as a proxy for capability'},
+    {q:'Is the objective function trustworthy?',
+     hint:'Faster search over a bad energy landscape is worth nothing.',
+     good:'Scoring-function accuracy addressed and benchmarked',
+     mid:'Acknowledged but not quantified',
+     bad:'No discussion of scoring accuracy at all'},
+    {q:'Has anything been validated experimentally?',
+     hint:'Binding, neutralization, developability.',
+     good:'Wet-lab endpoint reported',
+     mid:'Validation planned or in progress',
+     bad:'In-silico metrics only, no bench endpoint'},
+    {q:'What would falsify the claim?',
+     hint:'A claim that cannot fail cannot be assessed.',
+     good:'A specific failure condition is stated',
+     mid:'Vague conditions offered',
+     bad:'Nothing specified - unfalsifiable as stated'}
+  ];
+  var state=Q.map(function(){return null});
+  var wrap=document.getElementById('qa');
+  var svg=document.getElementById('sc-chart'), NS='http://www.w3.org/2000/svg';
+  var out={score:document.getElementById('sc-score'),band:document.getElementById('sc-band'),
+           red:document.getElementById('sc-red'),ans:document.getElementById('sc-ans')};
+
+  function esc(s){return String(s).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})}
+
+  function build(){
+    wrap.innerHTML=Q.map(function(item,i){
+      return '<div class="panel" style="margin-bottom:10px">'+
+        '<h3>'+(i+1)+'. '+esc(item.q)+'</h3>'+
+        '<p style="margin:0 0 12px;font-size:.88rem;color:var(--text-secondary)">'+esc(item.hint)+'</p>'+
+        '<div style="display:flex;gap:8px;flex-wrap:wrap">'+
+          [['3',item.good],['1',item.mid],['0',item.bad]].map(function(o,k){
+            return '<button class="button sm light" data-q="'+i+'" data-v="'+o[0]+'" '+
+                   'style="text-align:left;max-width:310px;white-space:normal;line-height:1.35">'+
+                   esc(o[1])+'</button>';
+          }).join('')+
+        '</div></div>';
+    }).join('');
+    Array.prototype.forEach.call(wrap.querySelectorAll('button[data-q]'),function(b){
+      b.addEventListener('click',function(){
+        var i=+b.dataset.q;
+        state[i] = (state[i]===+b.dataset.v) ? null : +b.dataset.v;
+        paint();
+      });
+    });
+  }
+
+  function paint(){
+    Array.prototype.forEach.call(wrap.querySelectorAll('button[data-q]'),function(b){
+      var on = state[+b.dataset.q]===+b.dataset.v;
+      b.classList.toggle('primary',on);
+      b.classList.toggle('light',!on);
+    });
+    var answered=state.filter(function(v){return v!==null});
+    var score=answered.reduce(function(a,b){return a+b},0);
+    var red=state.filter(function(v){return v===0}).length;
+    out.score.textContent=score+' / 21';
+    out.ans.textContent=answered.length+' / 7';
+    out.red.textContent=red;
+    out.red.className=red?'flag':'ok';
+    var band;
+    if(!answered.length){ band='Unscored'; }
+    else if(answered.length<7){ band='Incomplete'; }
+    else if(red>0){ band='Send it back'; }
+    else if(score>=17){ band='Credible'; }
+    else if(score>=11){ band='Worth a second meeting'; }
+    else { band='Not ready'; }
+    out.band.textContent=band;
+    out.band.className = (band==='Credible') ? 'ok' : ((band==='Send it back'||band==='Not ready')?'flag':'');
+    draw();
+  }
+
+  function mk(t,a,x){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(x!==undefined)e.textContent=x;return e}
+
+  function draw(){
+    while(svg.childNodes.length>1) svg.removeChild(svg.lastChild);
+    var W=740,H=260,L=56,R=90,T=12,B=28;
+    var band=(H-T-B)/Q.length, bh=Math.min(20,band-8);
+    Q.forEach(function(item,i){
+      var v=state[i], y=T+i*band+(band-bh)/2;
+      var w=(v===null?0:v/3)*(W-L-R);
+      var fill = v===null?'var(--grid)':(v===3?'var(--series-1)':(v===1?'var(--series-3)':'var(--series-2)'));
+      svg.appendChild(mk('text',{x:L-10,y:y+bh/2+4,'class':'axis-label','text-anchor':'end'},'Q'+(i+1)));
+      svg.appendChild(mk('rect',{x:L,y:y,width:Math.max(3,w),height:bh,rx:4,fill:fill}));
+      svg.appendChild(mk('text',{x:L+Math.max(3,w)+8,y:y+bh/2+4,'class':'value-label'},
+        v===null?'not answered':(v===3?'solid (3)':(v===1?'partial (1)':'weak (0)'))));
+    });
+    svg.appendChild(mk('line',{x1:L,x2:L,y1:T,y2:H-B,'class':'axis-line'}));
+    svg.appendChild(mk('text',{x:L,y:H-8,'class':'axis-title'},'Score per question (0-3)'));
+  }
+
+  document.getElementById('sc-reset').addEventListener('click',function(){
+    state=Q.map(function(){return null}); paint();
+  });
+  build(); paint();
+})();
+</script>""",
+}

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CR6261 and the influenza HA stem · Gopi Chandran</title>
+<meta name="description" content="Literature analysis of the broadly neutralizing antibody CR6261: its conserved hemagglutinin stem epitope, heavy-chain-only recognition from the IGHV1-69 germline, and the mechanism of fusion inhibition.">
+<link rel="stylesheet" href="../../assets/css/deck.css">
+</head>
+<body>
+<div class="topbar"><div class="wrap topinner">
+  <a class="wordmark" href="../../index.html">GC<span>.</span> / Portfolio</a>
+  <nav class="topnav" aria-label="Project navigation">
+    <a href="../index.html">All projects</a>
+    <a href="../../index.html#projects">Back to portfolio</a>
+    
+  </nav>
+  <a class="button sm light" href="mailto:gopic2@umbc.edu">gopic2@umbc.edu</a>
+</div></div>
+
+<header class="phero"><div class="wrap">
+  <div class="kicker">05 · Antibody biology</div>
+  <h1>Most antibodies bind where the virus<br>can afford to change. <em>This one doesn't.</em></h1>
+  <p class="phero-sub">A structural and immunogenetic analysis of CR6261, a human monoclonal antibody that neutralizes influenza A viruses as different as the 1918 H1N1 pandemic strain and a lethal H5N1 isolate - because it binds a helical region in the hemagglutinin stem that is functionally constrained, and blocks the shape change that fusion requires.</p>
+  <div class="meta-row"><span class="pill">Literature analysis</span><span class="pill">Structural immunology</span><span class="pill">PDB 3GBN · 3GBM</span><span class="pill">Structural analysis</span></div>
+  
+  <div class="note"><strong>Scope:</strong> this is a literature-based structural analysis - my reading of published work, not my own experimental result. Every factual claim is cited on the final slide.</div>
+</div></header>
+
+<main class="wrap deck-shell">
+  <div class="deck-bar">
+    <div>
+      <span class="deck-counter" data-deck-counter>Slide 1 of 6</span>
+      <span class="deck-hint"> · arrow keys, swipe, or the buttons</span>
+    </div>
+    <div class="deck-controls">
+      
+      <button class="button sm light" data-deck-prev aria-label="Previous slide">&larr; Prev</button>
+      <button class="button sm primary" data-deck-next aria-label="Next slide">Next &rarr;</button>
+    </div>
+  </div>
+  <div class="deck-track"><i data-deck-bar></i></div>
+  <div data-deck>
+    <section class="slide" aria-label="Why influenza vaccines are a yearly guess">
+      <div class="slide-eyebrow">01 · The problem</div>
+      <h2>Why influenza vaccines are a yearly guess</h2>
+      <p class="lede">Current vaccines produce immunity to strains similar to the vaccine strain. That is a design constraint, not a failure - and it comes from <em>where</em> the immune response is aimed.</p>
+      <p>Hemagglutinin, the dominant surface antigen of influenza A, has two functional regions and the antibody response concentrates overwhelmingly on one of them.</p>
+      <div class="cols">
+        <div class="panel sand">
+          <h3>The head - immunodominant, variable</h3>
+          <p>Contains the receptor-binding site. Exposed, accessible, and the target of most antibodies raised by infection or vaccination. It also tolerates substitution well, so it <strong>drifts</strong>: the virus changes the head without losing the ability to bind cells.</p>
+          <p style="margin-top:10px">Consequence: antibodies that work beautifully this season may not recognise next season's strain.</p>
+        </div>
+        <div class="panel blue">
+          <h3>The stem - subdominant, constrained</h3>
+          <p>The membrane-proximal region that drives the conformational change pulling viral and host membranes together. It is less accessible, less immunogenic - and far less free to vary, because the fusion machinery has to keep working.</p>
+          <p style="margin-top:10px">Consequence: an antibody that binds here can recognise strains separated by decades and by subtype.</p>
+        </div>
+      </div>
+      <p style="margin-top:20px">Three influenza A pandemics in the past century - 1918 H1N1, 1957 H2N2 and 1968 H3N2 - involved subtypes different enough that head-directed immunity offered little protection. A high-affinity antibody against a genuinely conserved epitope would change that calculus, which is why CR6261 mattered when its structure was solved.</p>
+      <div class="takeaway"><strong>The question this project examines:</strong> what does an antibody have to do differently to bind the stem - and what does the virus lose if it tries to escape?</div>
+    </section>
+
+    <section class="slide" aria-label="Where CR6261 came from">
+      <div class="slide-eyebrow">02 · The antibody</div>
+      <h2>Where CR6261 came from</h2>
+      <p>CR6261 was isolated from the immune repertoire of a <strong>healthy, vaccinated individual</strong> by phage display selection on recombinant H5 hemagglutinin. The donor had no known exposure to H5 viruses - yet clones capable of neutralizing H5 were recovered.</p>
+      <div class="note neutral"><strong>Why that origin is interesting:</strong> the capability was already latent in a normal human repertoire shaped by ordinary seasonal exposure and vaccination. The antibody did not need a rare donor or an exotic immunisation history. It needed to be <em>found</em> - which reframes "universal influenza vaccine" from an invention problem toward an elicitation problem.</p>
+      <h3 style="margin-top:26px">The immunogenetics are unusually clean</h3>
+      <div class="cols three">
+        <div class="panel">
+          <h3>One germline gene</h3>
+          <p>CR6261 and a family of related stem-binders derive from heavy-chain variable region <strong>IGHV1-69</strong>, after limited affinity maturation.</p>
+        </div>
+        <div class="panel">
+          <h3>Heavy chain only</h3>
+          <p>Binding does not involve the light chain. Only the rearranged heavy chain contacts HA, with <strong>CDR-H2 dominant</strong>, and most crucial contacts are germline-encoded.</p>
+        </div>
+        <div class="panel">
+          <h3>Fourteen mutations</h3>
+          <p>The somatic heavy chain differs from its germline precursor by only 14 amino acids - a strikingly low degree of maturation for a broadly neutralizing antibody.</p>
+        </div>
+      </div>
+      <p style="margin-top:22px">The germline precursors of CR6261 and related antibodies, however, <strong>failed to bind HA at all</strong> as soluble IgG even at very high concentration. Maturation of the light chain made no difference; somatic mutation of the heavy chain alone produced the affinity. Introducing CDR-H1 changes into the germline heavy chain was enough to confer neutralization, with the matured CDR-H1 flipping a hydrophobic phenylalanine outward into contact with HA.</p>
+      <div class="takeaway"><strong>What this tells a vaccine designer:</strong> the germline is poised but not competent. A small, specific set of mutations stands between a common naive B cell and a broadly neutralizing antibody - which is both the opportunity and the difficulty in trying to elicit these deliberately.</div>
+    </section>
+
+    <section class="slide" aria-label="What the co-crystal structures showed">
+      <div class="slide-eyebrow">03 · The structure</div>
+      <h2>What the co-crystal structures showed</h2>
+      <p>Two co-crystal structures of the CR6261 Fab were determined: with hemagglutinin from the 1918 H1N1 pandemic virus, and with HA from a recent lethal case of H5N1 avian influenza.</p>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>Feature</th><th>Published value</th><th>Why it matters</th></tr></thead>
+        <tbody>
+          <tr><td>Resolutions</td><td>2.2 Å and 2.7 Å</td><td>High enough to assign side-chain contacts confidently</td></tr>
+          <tr><td>Epitope location</td><td>Highly conserved helical region in the membrane-proximal stem, spanning HA1 and HA2</td><td>Unlike all other structurally characterised influenza antibodies at the time</td></tr>
+          <tr><td>Principal contacts</td><td>Primarily the HA2 A helix, plus HA1 residues in the stem</td><td>The interface sits on the fusion machinery itself</td></tr>
+          <tr><td>Buried surface area</td><td>680 Å² on HA (≈70% contributed by HA2); 624 Å² on the Fab</td><td>A compact interface - fewer positions available for escape mutation</td></tr>
+          <tr><td>van der Waals contacts</td><td>116</td><td>Tight hydrophobic packing rather than a broad polar interface</td></tr>
+          <tr><td>Position relative to membrane</td><td>Within ~25 Å of the bilayer</td><td>Explains the subdominance - the epitope is crowded and hard to reach</td></tr>
+          <tr><td>Glycan constraint</td><td>A universally conserved glycan at HA2 Asn154 lies directly between the Fab light-chain variable region and HA</td><td>Partly explains why light-chain contact is absent - there is a sugar in the way</td></tr>
+        </tbody>
+      </table></div>
+      <div class="takeaway"><strong>The structural argument for durability:</strong> a small buried surface dominated by a functionally essential helix presents fewer viable escape positions than a large interface on a tolerant surface. The virus cannot cheaply mutate out of a site it needs in order to fuse.</div>
+    </section>
+
+    <section class="slide" aria-label="Neutralization by preventing a shape change">
+      <div class="slide-eyebrow">04 · Mechanism</div>
+      <h2>Neutralization by preventing a shape change</h2>
+      <p>Most well-known neutralizing antibodies work by occluding the receptor-binding site - physically preventing attachment. CR6261 does something different, and the difference is the whole point.</p>
+      <div class="flow">
+        <div class="flow-step"><b>Normal entry</b><span>Virus attaches; particle is internalised into an endosome</span></div>
+        <div class="flow-step"><b>Trigger</b><span>Endosomal acidification triggers HA rearrangement</span></div>
+        <div class="flow-step"><b>Fusion</b><span>HA2 extends, inserting the fusion peptide into the host membrane</span></div>
+        <div class="flow-step"><b>Collapse</b><span>HA folds back, pulling the two membranes together</span></div>
+        <div class="flow-step"><b>Release</b><span>Genome enters the cytoplasm</span></div>
+      </div>
+      <p style="margin-top:24px">CR6261 binds across the stem helices in the prefusion state and <strong>blocks the conformational rearrangements associated with membrane fusion</strong>. Attachment can proceed; the virus is taken in; and then it cannot complete entry. The antibody is a wedge in a hinge rather than a cap on a key.</p>
+      <div class="cols" style="margin-top:22px">
+        <div class="panel lime">
+          <h3>Why this generalises</h3>
+          <p>The same logic appears across viral families. The Lassa antibody 37.7H neutralizes by stabilising the prefusion glycoprotein trimer and preventing the rearrangement fusion requires - a different virus, a different fold, the same strategy. Conserved, mechanically essential, conformationally constrained surfaces are where breadth lives.</p>
+        </div>
+        <div class="panel">
+          <h3>Breadth is bounded, not unlimited</h3>
+          <p>CR6261's breadth covers influenza A <strong>group 1</strong> subtypes. The related antibody CR9114, also IGHV1-69-derived and heavy-chain dominant, extends to both group 1 and group 2 - so "stem-binding" is not one single capability but a family of epitopes with different reach.</p>
+        </div>
+      </div>
+      <div class="takeaway"><strong>Precision matters here:</strong> CR6261 is broadly neutralizing, not universal. A portfolio claim of "universal influenza antibody" would be wrong, and the published breadth is specific and worth stating correctly.</div>
+    </section>
+
+    <section class="slide" aria-label="What the field took from this">
+      <div class="slide-eyebrow">05 · Implications</div>
+      <h2>What the field took from this</h2>
+      <div class="cols">
+        <div class="panel">
+          <h3>For vaccine design</h3>
+          <p>If a conserved epitope exists and a common germline gene can reach it with modest maturation, the goal becomes <strong>focusing</strong> the response there rather than discovering a new target. That is the logic behind stem-only immunogens, headless HA constructs and germline-targeting strategies.</p>
+        </div>
+        <div class="panel">
+          <h3>For therapeutics</h3>
+          <p>A broadly neutralizing antibody is a stockpileable countermeasure against a subtype that has not emerged yet - valuable precisely because it does not require knowing next season's strain.</p>
+        </div>
+        <div class="panel">
+          <h3>For structural biology as a strategy</h3>
+          <p>The epitope was defined by solving the complex. Structure did not confirm a hypothesis here so much as generate one - which is a general argument for structure-first antibody programmes.</p>
+        </div>
+        <div class="panel">
+          <h3>The honest obstacles</h3>
+          <ul>
+            <li>Stem epitopes are <strong>subdominant</strong> - the immune system prefers the head, and simply presenting the stem does not guarantee a strong response</li>
+            <li>Stem-directed antibodies often neutralize with lower potency than head-directed ones</li>
+            <li>Effector-function contributions complicate the correlation between in-vitro neutralization and in-vivo protection</li>
+          </ul>
+        </div>
+      </div>
+      <div class="takeaway"><strong>What I took from it personally:</strong> breadth is not a property of an antibody in isolation. It is a property of the <em>relationship</em> between an antibody and the evolutionary constraints on its target. That framing is what connects this project to the filovirus and Lassa work in the previous one - the same question asked of different viruses.</div>
+    </section>
+
+    <section class="slide" aria-label="Primary literature">
+      <div class="slide-eyebrow">06 · Sources</div>
+      <h2>Primary literature</h2>
+      <ul class="refs">
+        <li><strong>Co-crystal structures of CR6261 Fab with 1918 H1N1 and H5N1 hemagglutinin at 2.2 Å and 2.7 Å; conserved helical epitope in the membrane-proximal stem of HA1/HA2; neutralization by blocking conformational rearrangements associated with membrane fusion; isolation by phage display on recombinant H5 HA from a healthy vaccinated individual; buried surface 680 Å² on HA (70% HA2) and 624 Å² on Fab with 116 van der Waals contacts; epitope within ~25 Å of the bilayer; conserved glycan at HA2 Asn154 between the light-chain variable region and HA; contacts primarily the HA2 A helix</strong> - Ekiert, Bhabha, Elsliger, Friesen, Jongeneelen, Throsby, Goudsmit &amp; Wilson, "Antibody recognition of a highly conserved influenza virus epitope," <em>Science</em> 324:246-251 (2009). <a href="https://doi.org/10.1126/science.1171491" target="_blank" rel="noopener">doi:10.1126/science.1171491</a>. Structures: PDB <a href="https://www.rcsb.org/structure/3GBN" target="_blank" rel="noopener">3GBN</a> (1918 H1N1) and <a href="https://www.rcsb.org/structure/3GBM" target="_blank" rel="noopener">3GBM</a> (H5N1).</li>
+        <li><strong>Three influenza A pandemics in the past century (1918 H1N1, 1957 H2N2, 1968 H3N2); current vaccines give immunity to strains similar to the vaccine strain</strong> - Ekiert et al. (2009), introduction.</li>
+        <li><strong>IGHV1-69 derivation with limited affinity maturation; binding does not involve the light chain; most crucial heavy-chain contacts germline-encoded; germline ancestors of CR6261 failed to bind HA as soluble IgG even at 100 µg/ml; somatic heavy chain differs from germline by only 14 amino acids; CDR-H1 maturation confers neutralization with Phe29 flipped into HA contact; light-chain maturation does not affect binding</strong> - Lingwood et al., "Structural and genetic basis for development of broadly neutralizing influenza antibodies," <em>Nature</em> (2012). <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7095019" target="_blank" rel="noopener">PMC7095019</a>.</li>
+        <li><strong>CR6261 breadth across influenza A group 1; CR9114 across group 1 and group 2; heavy-chain-only binding with CDR-H2 dominance; CDR-H3 length 12; the hydrophobic Ile-Phe CDR-H2 tip with conserved CDR-H3 tyrosine ("IFY") motif</strong> - review of VH1-69 antiviral antibodies, <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7266006/table/T1" target="_blank" rel="noopener">PMC7266006, Table 1</a>.</li>
+        <li><strong>Only the rearranged VH makes contact with HA across CR6261, F10 and CR9114</strong> - as summarised in <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7185437" target="_blank" rel="noopener">PMC7185437</a>, citing Dreyfus et al. (2012), Ekiert et al. (2009), Sui et al. (2009).</li>
+        <li><strong>Lassa 37.7H neutralizing by stabilising the prefusion GPC trimer</strong> (comparison on slide 4) - Hastie et al., <em>Science</em> 356:923-928 (2017), <a href="https://doi.org/10.1126/science.aam7260" target="_blank" rel="noopener">doi:10.1126/science.aam7260</a>.</li>
+      </ul>
+      <div class="note neutral"><strong>Attribution:</strong> the science above is the work of the cited authors. My contribution is the analysis and synthesis - reading the primary structural and immunogenetic literature and drawing out the pattern that connects it to the other antibody programmes in this portfolio.</div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap pfoot"><div class="pfoot-grid">
+    <a class="button light" href="../computational-antibody/index.html">&larr; Computational & quantum antibody design</a>
+    <a class="button light" href="../index.html">All 8 projects</a>
+    <a class="button primary" href="../ricestressdb/index.html">RiceStressDB &rarr;</a>
+  </div></div>
+  <div class="wrap fineprint">
+    <span>© Gopi Chandran · Project walkthrough</span>
+    <span>Literature analysis · primary sources cited</span>
+    <span><a href="#top">Back to top &uarr;</a></span>
+  </div>
+</footer>
+<script src="../../assets/js/deck.js"></script>
+
+</body></html>

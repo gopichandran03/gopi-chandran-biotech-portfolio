@@ -1,0 +1,416 @@
+# Content for the process-monitoring / quality walkthrough.
+# Everything in the live demo runs on synthetic data generated in the browser.
+# The deck is explicit that this is a teaching demonstration, not a validated
+# analytical method and not a GMP release-control strategy.
+
+PAGE = {
+    "number": "02",
+    "category": "Quality & process monitoring",
+    "card_title": "Quality and process-monitoring demonstration",
+    "card_blurb": "A live control chart you can destabilise yourself - shift the process, add drift, change the noise - plus the distinction between control limits and specification limits that most people get wrong.",
+    "cta": "Open interactive demo",
+    "tags": ["Python", "Statistical process control", "Quality mindset"],
+    "meta": "Interactive statistical process control demonstration: Shewhart control charts, run rules, process capability, and the difference between control limits and specification limits.",
+    "headline": "A process in control<br><em>is not the same as a process in spec.</em>",
+    "sub": "A working demonstration of statistical process monitoring: how control limits are derived, what a run rule detects that a single out-of-limit point misses, and why capability and control answer two different questions. Built because the distinction matters in any environment where a measurement decides whether material moves forward.",
+    "pills": [
+        ("Interactive · synthetic data", "solid"),
+        ("Python + browser demo",),
+        ("Teaching demonstration",),
+        ("Not a validated method",),
+    ],
+    "note": "<strong>Read this first:</strong> every number in this demonstration is <em>synthetically generated</em>, in your browser or by the Python script in this repository. Nothing here is real process data, from any laboratory or employer. This is an educational illustration of descriptive process monitoring - it is <strong>not</strong> a validated analytical method, not a GMP release-control strategy, and not suitable for making decisions about real material.",
+    "footer_note": "Synthetic data throughout · code in workflows/quality_control/",
+    "code": "workflows/quality_control/README.md",
+    "slides": [
+        {
+            "eyebrow": "01 · Why",
+            "title": "The question behind every in-process measurement",
+            "body": """      <p class="lede">You took a measurement. It is different from last time. Is that the process changing, or is that just what this process looks like?</p>
+      <p>Almost every operational decision in a laboratory or manufacturing environment is a version of that question. Viable cell density came back lower than yesterday. A pH reading drifted. A confluence estimate is off. The instinct is to react to the number; the discipline is to ask first whether the number is outside what the process does naturally.</p>
+      <div class="cols">
+        <div class="panel sand">
+          <h3>Common-cause variation</h3>
+          <p>The irreducible noise of a stable process - pipetting, sampling, instrument precision, biological variability between flasks. It is always there. Reacting to it makes the process <em>worse</em>, because you adjust in response to noise.</p>
+        </div>
+        <div class="panel blue">
+          <h3>Special-cause variation</h3>
+          <p>Something genuinely changed - a new reagent lot, an incubator drifting, a contamination event, a different operator technique. This is what you want to detect, quickly, and act on.</p>
+        </div>
+      </div>
+      <div class="takeaway"><strong>What statistical process control actually gives you:</strong> a defensible, pre-agreed rule for telling those two apart, set before you see the result - so the decision is not a judgement call made under pressure about a number you already dislike.</div>""",
+        },
+        {
+            "eyebrow": "02 · The statistics",
+            "title": "Where the limits come from - and what they are not",
+            "body": """      <p>A Shewhart control chart plots a measurement in time order against limits derived from the process's own behaviour during a stable baseline period.</p>
+      <div class="cols">
+        <div class="panel">
+          <h3>Control limits</h3>
+          <p>Calculated as the baseline mean ± 3 standard deviations of the baseline data. They describe <strong>what this process does</strong>. They come from the data and nothing else.</p>
+          <pre><code>UCL = x̄ + 3s
+CL  = x̄
+LCL = x̄ - 3s</code></pre>
+        </div>
+        <div class="panel lime">
+          <h3>Specification limits</h3>
+          <p>The range the material must be in to be acceptable. They come from <strong>requirements</strong> - a protocol, a product specification, a regulatory filing. They have nothing to do with the data you collected.</p>
+          <p style="margin-top:12px"><strong>These are different things and they are not interchangeable.</strong></p>
+        </div>
+      </div>
+      <p style="margin-top:20px">Why ±3 standard deviations? Under an approximately normal, stable process, about 99.7% of observations fall inside that band, so a point outside is a roughly 1-in-370 event - rare enough to be worth investigating, common enough that you are not blind to a real shift. It is a deliberate trade between false alarms and missed signals, not a law of nature.</p>
+      <div class="note"><strong>The error to avoid:</strong> drawing specification limits on a chart and calling the process "in control" because points sit inside them. A process can be wildly unstable and still inside spec (you are getting lucky), or perfectly stable and entirely outside spec (you are consistently making the wrong thing). Slides 3 and 5 separate the two.</div>""",
+        },
+        {
+            "eyebrow": "03 · Interactive",
+            "title": "Break the process yourself",
+            "body": """      <p>Below is a live control chart over synthetic in-process measurements. The baseline sets the limits; then you choose what happens to the process. Add a step shift, let it drift, widen the noise - and watch which rules catch it, and how long they take.</p>
+
+      <div class="demo viz">
+        <div class="demo-head">
+          <h3>Shewhart chart over synthetic measurements</h3>
+          <span class="tag">Synthetic data · generated in your browser</span>
+        </div>
+        <div class="demo-body">
+          <div class="controls">
+            <label class="control">Fault injected
+              <select id="fault">
+                <option value="none">None - stable process</option>
+                <option value="shift" selected>Step shift (new reagent lot)</option>
+                <option value="drift">Gradual drift (instrument or incubator)</option>
+                <option value="spread">Increased variability (technique inconsistency)</option>
+                <option value="outlier">Single excursion (one bad sample)</option>
+              </select>
+            </label>
+            <label class="control">Fault size (× baseline SD)
+              <input type="range" id="size" min="0" max="4" step="0.1" value="1.5">
+              <output id="size-o">1.5 SD</output>
+            </label>
+            <label class="control">Process noise (SD)
+              <input type="range" id="noise" min="0.3" max="3" step="0.1" value="1.0">
+              <output id="noise-o">1.0</output>
+            </label>
+            <label class="control">Run rules
+              <select id="rules">
+                <option value="1">Rule 1 only - point beyond 3 SD</option>
+                <option value="all" selected>Rules 1-4 (see next slide)</option>
+              </select>
+            </label>
+            <button class="button sm light" id="reseed">New random run</button>
+          </div>
+
+          <figure>
+            <svg id="spc" viewBox="0 0 760 330" role="img" aria-labelledby="spc-t">
+              <title id="spc-t">Control chart of synthetic in-process measurements with control limits and flagged violations</title>
+            </svg>
+            <figcaption>Points 1-25 are the stable baseline that sets the limits (shaded). From point 26 the chosen fault is active. Every flagged point is marked in orange; the first point to trip each rule is labelled, and hovering any point gives its value and every rule it triggered. The full list is in the table below.</figcaption>
+          </figure>
+          <div class="legend">
+            <span><i style="background:var(--series-1)"></i>Measurement</span>
+            <span><i style="background:var(--series-2)"></i>Flagged by a run rule</span>
+            <span><i style="background:var(--axis)"></i>Control limits (± 3 SD)</span>
+          </div>
+
+          <div class="readout">
+            <div><b id="q-n">60</b><small>Points charted</small></div>
+            <div><b id="q-mean">0.00</b><small>Baseline mean</small></div>
+            <div><b id="q-sd">1.00</b><small>Baseline SD</small></div>
+            <div><b id="q-flag">0</b><small>Points flagged</small></div>
+            <div><b id="q-first">-</b><small>First detection after fault</small></div>
+          </div>
+          <button class="button sm light tablebtn" id="tbtn" aria-expanded="false">Show flagged points table</button>
+          <div class="tbl-scroll datatable" id="tbl" hidden></div>
+        </div>
+      </div>
+
+      <div class="takeaway"><strong>Try this:</strong> set the fault to a step shift of 1.0 SD with rules 1 only. Almost nothing trips - a one-sigma shift is nearly invisible to the single-point rule. Switch to rules 1-4 and the run rules catch it within a handful of points. That gap is the entire argument for run rules.</div>""",
+        },
+        {
+            "eyebrow": "04 · Run rules",
+            "title": "What a single out-of-limit point misses",
+            "body": """      <p>A point beyond 3 SD is the obvious signal, and it is also the least sensitive one. Small sustained shifts - exactly the kind a drifting incubator or a new reagent lot produces - rarely throw a single point that far. They show up as <em>patterns</em>.</p>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>Rule</th><th>Pattern</th><th>What it typically means</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1</strong></td><td>Any single point beyond 3 SD from the centre line</td><td>A gross excursion - a bad sample, a transcription error, a real and large event</td></tr>
+          <tr><td><strong>2</strong></td><td>Nine consecutive points on the same side of the centre line</td><td>The process mean has moved. Nothing is out of limits; the centre has shifted</td></tr>
+          <tr><td><strong>3</strong></td><td>Six consecutive points steadily increasing or decreasing</td><td>Drift - calibration, temperature, reagent degradation, cell passage effects</td></tr>
+          <tr><td><strong>4</strong></td><td>Two of three consecutive points beyond 2 SD on the same side</td><td>An emerging shift, caught earlier than rule 1 would catch it</td></tr>
+        </tbody>
+      </table></div>
+      <p style="margin-top:20px">These are a subset of the Nelson rules, which in turn descend from Western Electric's handbook. In clinical laboratory practice the closely related Westgard rules play the same role for assay quality control. The arithmetic is simple; the discipline is agreeing which rules apply <strong>before</strong> you run the samples.</p>
+      <div class="cols" style="margin-top:22px">
+        <div class="panel">
+          <h3>The cost of more rules</h3>
+          <p>Every rule you add increases sensitivity to real change and increases false alarms. Run eight rules on a stable process and you will investigate things that never happened - and teach everyone to ignore flags.</p>
+        </div>
+        <div class="panel">
+          <h3>The cost of fewer rules</h3>
+          <p>Run only rule 1 and a one-sigma shift can persist for dozens of runs unnoticed. In a cell culture context that could be an entire expansion carried out on a quietly altered process.</p>
+        </div>
+      </div>
+      <div class="takeaway"><strong>The real skill</strong> is not computing limits - any script does that. It is choosing a rule set proportionate to the cost of a false alarm versus the cost of a missed shift, and then holding to it.</div>""",
+        },
+        {
+            "eyebrow": "05 · Capability",
+            "title": "Control and capability answer different questions",
+            "body": """      <p>Once a process is stable, a second and separate question arises: is the thing it stably does actually acceptable?</p>
+      <div class="cols">
+        <div class="panel">
+          <h3>Is it in control?</h3>
+          <p>Stability over time. Answered by the control chart. Uses only the process data.</p>
+          <p><strong>If no:</strong> capability indices are meaningless, because there is no single stable process to describe.</p>
+        </div>
+        <div class="panel">
+          <h3>Is it capable?</h3>
+          <p>Does the stable process fit inside the specification? Answered by capability indices, which need the <em>spec</em> as an input.</p>
+          <pre><code>Cp  = (USL - LSL) / 6s
+Cpk = min(USL - x̄, x̄ - LSL) / 3s</code></pre>
+        </div>
+      </div>
+      <p style="margin-top:20px"><code>Cp</code> asks whether the spread could fit in the window. <code>Cpk</code> asks whether it fits <em>where the process actually sits</em>. A process can have excellent <code>Cp</code> and poor <code>Cpk</code> simply by being off-centre - the variability is fine, the aim is wrong, and those have completely different fixes.</p>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>Situation</th><th>In control?</th><th>Capable?</th><th>What to do</th></tr></thead>
+        <tbody>
+          <tr><td>Stable, comfortably inside spec</td><td>Yes</td><td>Yes</td><td>Monitor. Change nothing.</td></tr>
+          <tr><td>Stable, consistently off-centre</td><td>Yes</td><td>No - aim</td><td>Re-centre the process. Do not touch variability.</td></tr>
+          <tr><td>Stable, spread wider than the window</td><td>Yes</td><td>No - spread</td><td>Reduce variability, or revisit whether the spec is right.</td></tr>
+          <tr><td>Unstable, currently inside spec</td><td>No</td><td>Unanswerable</td><td>Find the special cause first. Capability numbers here are fiction.</td></tr>
+        </tbody>
+      </table></div>
+      <div class="takeaway"><strong>Order of operations:</strong> stability before capability, always. Computing <code>Cpk</code> on an out-of-control process produces a confident number that describes nothing.</div>""",
+        },
+        {
+            "eyebrow": "06 · Real systems",
+            "title": "What would have to be different in a regulated environment",
+            "body": """      <p>I want to be precise about the distance between this demonstration and a real quality system, because that distance is the point of the slide.</p>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>This demonstration</th><th>A regulated in-process monitoring programme</th></tr></thead>
+        <tbody>
+          <tr><td>Synthetic numbers generated on page load</td><td>Data from qualified instruments, under data-integrity controls, attributable and audit-trailed</td></tr>
+          <tr><td>Limits recomputed on the fly as you move sliders</td><td>Limits established from a defined baseline, documented, version-controlled and changed only under change control</td></tr>
+          <tr><td>Rule set switchable in a dropdown</td><td>Rule set pre-specified in an approved procedure before data is collected</td></tr>
+          <tr><td>A flagged point is a coloured dot</td><td>A flagged point opens a documented investigation with defined responsibilities and timelines</td></tr>
+          <tr><td>Script in a public repository</td><td>Validated software, qualified for intended use, with specification, testing and traceability</td></tr>
+          <tr><td>No consequence</td><td>Material disposition - a decision about whether product moves forward</td></tr>
+        </tbody>
+      </table></div>
+      <h3 style="margin-top:24px">Where I have actually worked with this thinking</h3>
+      <p>In mammalian cell culture support at UMBC - HEK293 and HTB-182 maintenance - the relevant discipline is less about charting than about the conditions that make charting meaningful: consistent aseptic technique, contamination-conscious handling, equipment readiness checks, and documentation good enough that an unusual observation can be traced to something. A control chart over badly collected data is a confident-looking artefact with nothing underneath it.</p>
+      <div class="takeaway"><strong>Honest statement of my position:</strong> I have the statistical literacy demonstrated here and hands-on cell culture experience where consistency matters. I have not owned a validated SPC programme in a GMP environment, and this page does not claim otherwise.</div>""",
+        },
+        {
+            "eyebrow": "07 · Limits",
+            "title": "What this demonstration assumes, and where that breaks",
+            "body": """      <ul>
+        <li><strong>Independent observations.</strong> Real in-process measurements are often autocorrelated - today's reading depends on yesterday's. Autocorrelation inflates false alarms badly, and the standard chart is the wrong tool; a time-series or EWMA approach fits better.</li>
+        <li><strong>Approximate normality.</strong> Many bioprocess measurements are skewed or bounded (counts, percentages, titres). Limits computed as mean ± 3 SD on a skewed distribution are asymmetric in reality but drawn symmetric here. A transformation or an attribute chart is often more appropriate.</li>
+        <li><strong>A genuinely stable baseline.</strong> The limits are only meaningful if the baseline period was in control. If the baseline already contained a shift, the limits are inflated and will hide the next one.</li>
+        <li><strong>Individual measurements.</strong> This is an individuals chart. With rational subgroups an X-bar and R or S chart separates within- from between-subgroup variation, which is usually more informative.</li>
+        <li><strong>One variable at a time.</strong> Real processes have many correlated parameters; monitoring each independently multiplies false alarms and misses multivariate drift.</li>
+      </ul>
+      <div class="note neutral" style="margin-top:20px"><strong>Why list the weaknesses:</strong> because a portfolio piece that shows only what a method does is less useful than one that shows where it fails. If I brought this chart to a real process, these are the five things I would check before trusting it.</div>""",
+        },
+        {
+            "eyebrow": "08 · Code & reading",
+            "title": "Run it yourself",
+            "body": """      <p>The browser demo above is self-contained. The repository also contains a Python implementation that does the same analysis on a generated dataset and writes out a summary table and a chart - useful if you want to inspect the arithmetic rather than the interaction.</p>
+      <pre><code>git clone https://github.com/gopichandran03/gopi-chandran-biotech-portfolio.git
+cd gopi-chandran-biotech-portfolio
+python3 -m pip install -r requirements.txt
+python3 workflows/quality_control/process_monitor.py --fault shift --size 1.5 --seed 7</code></pre>
+      <p>It prints the baseline statistics, the control limits, every rule violation with the rule that caught it, and capability indices against specification limits you pass on the command line. Add <code>--plot out.png</code> for the chart.</p>
+      <h3 style="margin-top:26px">Background reading</h3>
+      <ul class="refs">
+        <li><strong>Shewhart control charts and the common-cause / special-cause distinction</strong> - W. A. Shewhart, <em>Economic Control of Quality of Manufactured Product</em> (1931); W. E. Deming's later work on reacting to noise ("tampering").</li>
+        <li><strong>Run rules</strong> - L. S. Nelson, "The Shewhart Control Chart - Tests for Special Causes," <em>Journal of Quality Technology</em> 16(4), 1984. Descended from the Western Electric <em>Statistical Quality Control Handbook</em> (1956).</li>
+        <li><strong>Westgard rules for clinical laboratory QC</strong> - J. O. Westgard et al., "A multi-rule Shewhart chart for quality control in clinical chemistry," <em>Clinical Chemistry</em> 27(3), 1981.</li>
+        <li><strong>Process capability</strong> - standard treatment in D. C. Montgomery, <em>Introduction to Statistical Quality Control</em>.</li>
+        <li><strong>Regulatory context for in-process controls and data integrity</strong> - ICH Q8-Q10 on pharmaceutical development, quality risk management and quality systems; relevant GMP data-integrity guidance.</li>
+      </ul>""",
+        },
+    ],
+    "page_script": """<script>
+(function(){
+  'use strict';
+  var svg=document.getElementById('spc');
+  var NS='http://www.w3.org/2000/svg';
+  var el={fault:document.getElementById('fault'),size:document.getElementById('size'),
+          noise:document.getElementById('noise'),rules:document.getElementById('rules')};
+  var out={size:document.getElementById('size-o'),noise:document.getElementById('noise-o')};
+  var q={n:document.getElementById('q-n'),mean:document.getElementById('q-mean'),
+         sd:document.getElementById('q-sd'),flag:document.getElementById('q-flag'),
+         first:document.getElementById('q-first')};
+  var tbtn=document.getElementById('tbtn'), tbl=document.getElementById('tbl');
+  var BASE=25, N=60, TARGET=50, seed=7;
+
+  // Deterministic PRNG so a "run" is reproducible until reseeded.
+  function rng(){ seed=(seed*1103515245+12345)&0x7fffffff; return seed/0x7fffffff; }
+  function gauss(){ var u=1-rng(), v=rng(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
+
+  function generate(){
+    var sd=+el.noise.value, k=+el.size.value, fault=el.fault.value, xs=[];
+    for(var i=0;i<N;i++){
+      var v=TARGET+gauss()*sd;
+      if(i>=BASE){
+        var t=i-BASE;
+        if(fault==='shift')   v+=k*sd;
+        if(fault==='drift')   v+=k*sd*(t/(N-BASE));
+        if(fault==='spread')  v+=gauss()*sd*k;
+        if(fault==='outlier'&&t===10) v+=k*sd*3;
+      }
+      xs.push(v);
+    }
+    return xs;
+  }
+
+  function stats(xs){
+    var m=xs.reduce(function(a,b){return a+b},0)/xs.length;
+    var s=Math.sqrt(xs.reduce(function(a,b){return a+(b-m)*(b-m)},0)/(xs.length-1));
+    return {mean:m, sd:s};
+  }
+
+  // Rule 1: beyond 3 SD. Rule 2: nine on one side. Rule 3: six monotone.
+  // Rule 4: two of three beyond 2 SD, same side.
+  function evaluate(xs,st,useAll){
+    var flags={};
+    function add(i,r){ (flags[i]=flags[i]||[]).push(r); }
+    for(var i=0;i<xs.length;i++){
+      if(Math.abs(xs[i]-st.mean)>3*st.sd) add(i,1);
+    }
+    if(useAll){
+      var side=xs.map(function(v){return v>st.mean?1:(v<st.mean?-1:0)});
+      var run=0;
+      for(var i=0;i<xs.length;i++){
+        run = (i>0 && side[i]===side[i-1] && side[i]!==0) ? run+1 : 1;
+        if(run>=9) add(i,2);
+      }
+      for(var i=5;i<xs.length;i++){
+        var up=true, dn=true;
+        for(var j=i-5;j<i;j++){ if(!(xs[j+1]>xs[j])) up=false; if(!(xs[j+1]<xs[j])) dn=false; }
+        if(up||dn) add(i,3);
+      }
+      for(var i=2;i<xs.length;i++){
+        var hi=0, lo=0;
+        for(var j=i-2;j<=i;j++){
+          if(xs[j]-st.mean>2*st.sd) hi++;
+          if(st.mean-xs[j]>2*st.sd) lo++;
+        }
+        if(hi>=2||lo>=2) add(i,4);
+      }
+    }
+    return flags;
+  }
+
+  function mk(tag,attrs,text){
+    var n=document.createElementNS(NS,tag);
+    for(var k in attrs) n.setAttribute(k,attrs[k]);
+    if(text!==undefined) n.textContent=text;
+    return n;
+  }
+
+  function render(){
+    out.size.textContent=(+el.size.value).toFixed(1)+' SD';
+    out.noise.textContent=(+el.noise.value).toFixed(1);
+    var xs=generate();
+    var st=stats(xs.slice(0,BASE));
+    var flags=evaluate(xs,st,el.rules.value==='all');
+
+    while(svg.childNodes.length>1) svg.removeChild(svg.lastChild);
+    // Right margin carries the limit labels so they never sit over the data.
+    var W=760,H=330,L=58,R=92,T=28,B=44;
+    var ucl=st.mean+3*st.sd, lcl=st.mean-3*st.sd;
+    var lo=Math.min(lcl,Math.min.apply(null,xs)), hi=Math.max(ucl,Math.max.apply(null,xs));
+    var pad=(hi-lo)*0.1; lo-=pad; hi+=pad;
+    var sx=function(i){return L+i/(N-1)*(W-L-R)};
+    var sy=function(v){return T+(hi-v)/(hi-lo)*(H-T-B)};
+
+    // baseline region
+    svg.appendChild(mk('rect',{x:L,y:T,width:sx(BASE-1)-L,height:H-T-B,fill:'var(--seq-100)',opacity:'0.35'}));
+    svg.appendChild(mk('text',{x:L+6,y:T+14,'class':'axis-label'},'baseline (sets limits)'));
+
+    // gridlines + y labels
+    for(var i=0;i<=4;i++){
+      var v=lo+(hi-lo)*i/4;
+      svg.appendChild(mk('line',{x1:L,x2:W-R,y1:sy(v),y2:sy(v),'class':'grid-line'}));
+      svg.appendChild(mk('text',{x:L-9,y:sy(v)+4,'class':'axis-label','text-anchor':'end'},v.toFixed(1)));
+    }
+    // limits
+    [[ucl,'UCL +3 SD'],[st.mean,'CL'],[lcl,'LCL -3 SD']].forEach(function(p){
+      var dash = p[1]==='CL' ? '' : '6 4';
+      var ln=mk('line',{x1:L,x2:W-R,y1:sy(p[0]),y2:sy(p[0]),stroke:'var(--axis)','stroke-width':1.5});
+      if(dash) ln.setAttribute('stroke-dasharray',dash);
+      svg.appendChild(ln);
+      svg.appendChild(mk('text',{x:W-R+6,y:sy(p[0])+4,'class':'axis-label'},p[1]));
+    });
+    svg.appendChild(mk('text',{x:(L+W-R)/2,y:H-6,'class':'axis-title','text-anchor':'middle'},'Observation (time order)'));
+    svg.appendChild(mk('text',{x:L-46,y:T-12,'class':'axis-title'},'Value'));
+    // fault onset
+    svg.appendChild(mk('line',{x1:sx(BASE),x2:sx(BASE),y1:T,y2:H-B,stroke:'var(--series-2)','stroke-width':1,'stroke-dasharray':'3 3'}));
+
+    // series line
+    var d=xs.map(function(v,i){return (i?'L':'M')+sx(i).toFixed(1)+' '+sy(v).toFixed(1)}).join(' ');
+    svg.appendChild(mk('path',{d:d,'class':'series-line',stroke:'var(--series-1)',opacity:'0.65'}));
+
+    // Markers. Every flagged point is coloured and carries a hover tooltip, but
+    // only the FIRST point to trip each distinct rule is labelled - labelling
+    // every flagged point produces an unreadable pile of identical tags.
+    var firstAfter=null, count=0, rows=[], labelled={};
+    xs.forEach(function(v,i){
+      var f=flags[i];
+      if(f){ count++; if(i>=BASE && firstAfter===null) firstAfter=i; rows.push([i+1,v,f]); }
+      var c=mk('circle',{cx:sx(i),cy:sy(v),r:f?5.5:3.4,
+        fill:f?'var(--series-2)':'var(--series-1)',stroke:'var(--surface-1)','stroke-width':f?2:1.2});
+      c.appendChild(mk('title',{},'Point '+(i+1)+': '+v.toFixed(2)+(f?'  — rule '+f.join(', '):'')));
+      svg.appendChild(c);
+      if(f){
+        var fresh=f.filter(function(rule){ return !labelled[rule] });
+        if(fresh.length){
+          fresh.forEach(function(rule){ labelled[rule]=true });
+          var tx=sx(i), anchor='middle';
+          if(tx<L+22){ tx=L+22; } else if(tx>W-R-22){ tx=W-R-22; }
+          svg.appendChild(mk('text',{x:tx,y:sy(v)-12,'class':'value-label','text-anchor':anchor,
+            fill:'var(--series-2)','font-size':'10.5'},'first R'+fresh.join('/')));
+        }
+      }
+    });
+
+    q.n.textContent=N;
+    q.mean.textContent=st.mean.toFixed(2);
+    q.sd.textContent=st.sd.toFixed(2);
+    q.flag.textContent=count;
+    q.flag.className=count?'flag':'ok';
+    q.first.textContent = el.fault.value==='none' ? 'n/a' :
+      (firstAfter===null ? 'not detected' : (firstAfter-BASE+1)+' points');
+    q.first.className = (el.fault.value!=='none'&&firstAfter===null)?'flag':'';
+
+    window.__rows=rows;
+    if(!tbl.hidden) tbl.innerHTML=tableHTML(rows);
+  }
+
+  function tableHTML(rows){
+    if(!rows.length) return '<table><tbody><tr><td>No points flagged at these settings.</td></tr></tbody></table>';
+    var h='<table><thead><tr><th>Point</th><th>Value</th><th>Rules triggered</th></tr></thead><tbody>';
+    rows.forEach(function(r){
+      h+='<tr><td>'+r[0]+'</td><td>'+r[1].toFixed(2)+'</td><td>'+r[2].map(function(x){return 'Rule '+x}).join(', ')+'</td></tr>';
+    });
+    return h+'</tbody></table>';
+  }
+
+  ['fault','size','noise','rules'].forEach(function(k){
+    el[k].addEventListener('input',render);
+    el[k].addEventListener('change',render);
+  });
+  document.getElementById('reseed').addEventListener('click',function(){
+    seed=Math.floor(Math.random()*2147483647); render();
+  });
+  tbtn.addEventListener('click',function(){
+    tbl.hidden=!tbl.hidden;
+    tbtn.setAttribute('aria-expanded',String(!tbl.hidden));
+    tbtn.textContent=tbl.hidden?'Show flagged points table':'Hide flagged points table';
+    if(!tbl.hidden) tbl.innerHTML=tableHTML(window.__rows||[]);
+  });
+  render();
+})();
+</script>""",
+}

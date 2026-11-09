@@ -1,0 +1,11 @@
+# Dependencies for the runnable workflow examples in workflows/.
+# Python 3.10 or newer.
+#
+#   python3 -m pip install -r requirements.txt
+#
+# The RiceStressDB demo (workflows/rice_stress_db/) needs none of these -
+# it runs on the standard library's sqlite3 module.
+
+numpy>=1.24
+pandas>=2.0
+matplotlib>=3.7

@@ -1,0 +1,386 @@
+# Content for the Pivot Bio commercialization walkthrough.
+# Public company facts are cited on the sources slide. The grower-economics
+# model is a transparent calculator over assumptions the reader can change,
+# not a claim about Pivot Bio's actual contract pricing.
+
+PAGE = {
+    "number": "01",
+    "category": "Commercialization",
+    "card_title": "Pivot Bio commercialization strategy",
+    "card_blurb": "Market sizing, competitive positioning, grower unit economics and exit paths for microbial nitrogen - with a calculator for the adoption decision a farmer actually makes.",
+    "cta": "Open deck + calculator",
+    "tags": ["Market research", "Go-to-market", "Unit economics"],
+    "meta": "Commercialization analysis of Pivot Bio's microbial nitrogen platform: market sizing, segmentation, competitive positioning, grower unit economics and exit considerations.",
+    "headline": "A better molecule is not a business.<br><em>The grower's arithmetic is.</em>",
+    "sub": "A commercialization analysis of Pivot Bio, the company selling nitrogen-fixing microbes as a partial replacement for synthetic fertilizer. The work covered market opportunity, competitive positioning, customer segments, value proposition, go-to-market and exit considerations - and ended at the question that decides adoption: does the arithmetic work on one field, in one season?",
+    "pills": [
+        ("Graduate coursework · team project",),
+        ("Finalist, simulated investment exercise", "accent"),
+        ("Highest simulated allocation", "accent"),
+        ("Market + financial analysis",),
+    ],
+    "note": "<strong>Scope:</strong> this was an academic commercialization exercise using public information about a private company. Company figures on the sources slide are cited to public reporting. The economics calculator is a transparent model over <em>assumptions you can change</em> - it is not Pivot Bio's pricing and not investment advice.",
+    "footer_note": "Public sources cited on the final slide.",
+    "slides": [
+        {
+            "eyebrow": "01 · The brief",
+            "title": "What the team was asked to do",
+            "body": """      <p class="lede">Take a real agricultural biotechnology company, evaluate it the way an investor would, and defend the conclusion to a panel.</p>
+      <div class="cols">
+        <div class="panel">
+          <h3>The assignment</h3>
+          <ul>
+            <li>Assess the <strong>market opportunity</strong> and size it credibly</li>
+            <li>Map <strong>competitive positioning</strong> against incumbents and challengers</li>
+            <li>Define <strong>customer segments</strong> and the value proposition for each</li>
+            <li>Build a <strong>go-to-market</strong> view</li>
+            <li>Reason about <strong>exit</strong> paths and what they require</li>
+          </ul>
+        </div>
+        <div class="panel lime">
+          <h3>What we delivered</h3>
+          <p>A full commercialization case with a grower-level economic model underneath it, rather than a market-size slide with no mechanism. The panel allocated the team the highest simulated investment among five finalist teams.</p>
+          <div class="chips"><span class="chip">Team project</span><span class="chip">Investor panel</span><span class="chip">Finalist</span></div>
+        </div>
+      </div>
+      <div class="takeaway"><strong>My contribution:</strong> the market and competitive research, and the unit-economics layer - translating the technology claim into a per-acre decision a grower could check against their own input bill.</div>""",
+        },
+        {
+            "eyebrow": "02 · The problem",
+            "title": "Nitrogen is a huge market with a leaky mechanism",
+            "body": """      <p>Synthetic nitrogen underpins modern cereal yields. It is also applied in a form that a crop cannot fully capture, which is simultaneously an agronomic problem, a cost problem and an emissions problem - and that overlap is what creates room for a substitute.</p>
+      <div class="cols three">
+        <div class="panel">
+          <span class="big">~$60B</span>
+          <small>Annual synthetic nitrogen market</small>
+          <p>Sold each year to sustain corn, wheat and rice alone.</p>
+        </div>
+        <div class="panel">
+          <span class="big">~50%</span>
+          <small>Share crops actually use</small>
+          <p>Roughly half the applied nitrogen is taken up; the rest leaches or volatilises.</p>
+        </div>
+        <div class="panel">
+          <span class="big">~300×</span>
+          <small>N<sub>2</sub>O warming potential vs CO<sub>2</sub></small>
+          <p>Part of the unused fraction leaves fields as nitrous oxide.</p>
+        </div>
+      </div>
+      <p style="margin-top:20px">Two features make this attractive commercially rather than merely important. First, the loss is <strong>weather-dependent</strong>: a heavy rain after application can remove nitrogen the grower has already paid for. Second, nitrogen is <strong>priced on a volatile global market</strong> tied to natural gas, so the grower carries input-price risk they cannot hedge agronomically.</p>
+      <div class="takeaway"><strong>Framing that shaped the rest of the analysis:</strong> the product is not competing on "greener nitrogen." It is competing on <em>delivered</em> nitrogen per dollar, with lower variance - which is a procurement argument, not an environmental one.</div>""",
+        },
+        {
+            "eyebrow": "03 · The technology",
+            "title": "What is actually being sold",
+            "body": """      <p>Pivot Bio works with nitrogen-fixing microbes that associate with cereal roots, modified so that fixation is not switched off in the presence of soil nitrogen - the regulatory behaviour that normally makes these organisms useless as a fertilizer substitute in fertilised fields. The product is applied in-furrow at planting, so it must contact the seed to colonise the developing root system.</p>
+      <div class="flow">
+        <div class="flow-step"><b>Step 1</b><span>Screen microbes native to cereal root environments</span></div>
+        <div class="flow-step"><b>Step 2</b><span>Remove the regulatory brake on nitrogen fixation</span></div>
+        <div class="flow-step"><b>Step 3</b><span>Manufacture and formulate at scale</span></div>
+        <div class="flow-step"><b>Step 4</b><span>In-furrow application at planting</span></div>
+        <div class="flow-step"><b>Step 5</b><span>Season-long colonisation and delivery at the root</span></div>
+      </div>
+      <h3 style="margin-top:26px">Why the delivery mechanism is the commercial point</h3>
+      <p>Synthetic nitrogen is applied in advance and then exposed to weather. A root-associated microbe delivers nitrogen where and when the plant draws it, which is the basis for the company's claims around resilience to leaching and improved nitrogen-use efficiency. It also compresses logistics dramatically: the shipped volume for a microbial product is a tiny fraction of the equivalent tonnage of synthetic fertilizer.</p>
+      <div class="note neutral" style="margin-top:18px"><strong>Honest limit of the product:</strong> this is a <em>partial</em> replacement. Public performance data describes replacing on the order of 40 lb N/acre against a typical US corn programme of roughly 160-200 lb/acre. Any analysis that treats it as a full substitute is wrong, and the valuation case has to be built on partial displacement plus agronomic risk reduction.</div>""",
+        },
+        {
+            "eyebrow": "04 · Market and segments",
+            "title": "Sizing it without hand-waving",
+            "body": """      <p>A credible size here is not "a share of $60 billion." It is acres × displaceable pounds per acre × price per pound, bounded by what the product can actually replace and where it can be sold.</p>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>Segment</th><th>Why they adopt</th><th>Friction</th><th>Priority</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Large row-crop corn growers</strong> (US Midwest)</td><td>Input cost per acre at scale; nitrogen price volatility; already applying in-furrow</td><td>Agronomic conservatism; yield risk intolerance in a single season</td><td>Primary - beachhead</td></tr>
+          <tr><td><strong>Growers under nutrient regulation</strong></td><td>Runoff and nutrient-management compliance pressure</td><td>Compliance frameworks may not yet credit the practice</td><td>Primary - policy tailwind</td></tr>
+          <tr><td><strong>Sustainability-linked supply chains</strong></td><td>Scope 3 reporting; buyer programmes paying for practice change</td><td>Measurement and verification burden</td><td>Secondary - revenue stacking</td></tr>
+          <tr><td><strong>Wheat and other cereals</strong></td><td>Same mechanism, different agronomy</td><td>Lower per-acre input spend; thinner margin for a premium input</td><td>Expansion</td></tr>
+          <tr><td><strong>Cotton and non-cereal</strong></td><td>Platform extension into new crop economics</td><td>Requires product development per crop</td><td>Expansion - later</td></tr>
+        </tbody>
+      </table></div>
+      <div class="takeaway"><strong>Conclusion we defended:</strong> the beachhead is not "sustainable agriculture." It is the large corn grower whose nitrogen bill is big enough that displacing ~20% of it is material, and who is already making an in-furrow pass at planting - so adoption requires no new equipment and no new field operation.</div>""",
+        },
+        {
+            "eyebrow": "05 · Competition",
+            "title": "Who else is in the lane",
+            "body": """      <p>The competitive set is wider than other microbial startups, and the most dangerous competitor is the cheapest one.</p>
+      <div class="cols">
+        <div class="panel sand">
+          <h3>The real incumbent: synthetic nitrogen itself</h3>
+          <p>Cheap per pound, universally available, agronomically understood, and backed by a century of grower habit. Any new input is priced against it and judged on a single season's yield.</p>
+        </div>
+        <div class="panel">
+          <h3>Other biological nitrogen efforts</h3>
+          <p>Multiple companies and corporate joint ventures have pursued biological nitrogen fixation. The differentiator claimed is not the idea but shipped product at scale with performance growers will accept.</p>
+        </div>
+        <div class="panel">
+          <h3>Nitrogen-efficiency alternatives</h3>
+          <p>Stabilisers, inhibitors, variable-rate application and improved timing all attack the same loss problem with lower switching cost and no biology risk.</p>
+        </div>
+        <div class="panel blue">
+          <h3>Defensibility</h3>
+          <p>Strain and trait IP, a large multi-year field dataset, direct-to-grower relationships and manufacturing scale - the data asset is arguably the strongest moat, because grower trust is earned per county, per season.</p>
+        </div>
+      </div>
+      <div class="takeaway"><strong>Strategic read:</strong> the moat is commercial as much as molecular. A competitor can copy the concept; replicating thousands of field-years of trial data and a direct-to-farm channel is slower.</div>""",
+        },
+        {
+            "eyebrow": "06 · Unit economics",
+            "title": "The decision one grower makes on one field",
+            "body": """      <p>This is the layer I built. Everything upstream - market size, segmentation, positioning - only matters if the per-acre arithmetic clears for the grower. Change the assumptions and watch where the decision flips.</p>
+
+      <div class="demo viz">
+        <div class="demo-head">
+          <h3>Grower adoption calculator</h3>
+          <span class="tag">Model · your assumptions, not vendor pricing</span>
+        </div>
+        <div class="demo-body">
+          <div class="controls">
+            <label class="control">Nitrogen price ($/lb N)
+              <input type="range" id="npx" min="0.25" max="1.40" step="0.01" value="0.60">
+              <output id="npx-o">$0.60</output>
+            </label>
+            <label class="control">Nitrogen displaced (lb N/acre)
+              <input type="range" id="disp" min="10" max="60" step="1" value="40">
+              <output id="disp-o">40 lb</output>
+            </label>
+            <label class="control">Product cost ($/acre)
+              <input type="range" id="cost" min="5" max="45" step="1" value="22">
+              <output id="cost-o">$22</output>
+            </label>
+            <label class="control">Application pass saved ($/acre)
+              <input type="range" id="pass" min="0" max="16" step="1" value="0">
+              <output id="pass-o">$0</output>
+            </label>
+            <label class="control">Farm size (acres)
+              <input type="number" id="acres" min="1" max="20000" step="50" value="1500">
+            </label>
+          </div>
+
+          <div class="readout">
+            <div><b id="r-gross">$24.00</b><small>Nitrogen value displaced /ac</small></div>
+            <div><b id="r-net">$2.00</b><small>Net benefit /ac</small></div>
+            <div><b id="r-be">$0.55</b><small>Breakeven N price $/lb</small></div>
+            <div><b id="r-farm">$3,000</b><small>Net benefit, whole farm</small></div>
+            <div><b id="r-verdict">Marginal</b><small>Decision at these inputs</small></div>
+          </div>
+
+          <figure>
+            <svg id="chart" viewBox="0 0 720 300" role="img" aria-labelledby="chart-t">
+              <title id="chart-t">Net benefit per acre across nitrogen prices, for the chosen displacement and product cost</title>
+            </svg>
+            <figcaption>Net benefit per acre as the nitrogen price moves, holding your other inputs fixed. The vertical marker is the nitrogen price you set; the horizontal rule is breakeven. Below the rule the grower loses money at that nitrogen price.</figcaption>
+          </figure>
+          <div class="legend">
+            <span><i style="background:var(--series-1)"></i>Net benefit / acre</span>
+            <span><i style="background:var(--series-2)"></i>Breakeven line</span>
+          </div>
+          <button class="button sm light tablebtn" id="tbtn" aria-expanded="false">Show data table</button>
+          <div class="tbl-scroll datatable" id="tbl" hidden></div>
+        </div>
+      </div>
+
+      <div class="takeaway"><strong>What the model surfaces:</strong> at a low nitrogen price the product is a hard sell on economics alone and must win on risk reduction or a sustainability payment. As nitrogen prices rise the same product becomes an obvious purchase. That is why the company's addressable market expands and contracts with a commodity price it does not control - a core risk in the investment case.</div>""",
+        },
+        {
+            "eyebrow": "07 · Go-to-market",
+            "title": "Selling an input growers have no habit for",
+            "body": """      <div class="cols">
+        <div class="panel">
+          <h3>Channel: direct to grower</h3>
+          <p>Going direct avoids a retail channel whose economics are tied to selling tonnes of the product being displaced. It costs more to build but keeps the agronomic narrative and the data intact.</p>
+        </div>
+        <div class="panel">
+          <h3>Proof: trials on the grower's own ground</h3>
+          <p>Adoption is won field by field. Side-by-side strips on a grower's own farm convert far better than aggregate trial statistics from elsewhere.</p>
+        </div>
+        <div class="panel">
+          <h3>Risk transfer</h3>
+          <p>Yield-protection terms, financing and price reductions move single-season risk off the grower - the single biggest barrier to a first purchase.</p>
+        </div>
+        <div class="panel">
+          <h3>Revenue stacking</h3>
+          <p>Programmes that pay growers for verified practice change lower the effective net cost, turning a marginal purchase into a clear one without discounting the product itself.</p>
+        </div>
+      </div>
+      <h3 style="margin-top:26px">Sequencing we recommended</h3>
+      <div class="flow">
+        <div class="flow-step"><b>Year 1</b><span>Beachhead corn acres, heavy trial density, direct agronomy support</span></div>
+        <div class="flow-step"><b>Year 2-3</b><span>Convert trial acres to whole-farm; build the multi-season dataset</span></div>
+        <div class="flow-step"><b>Year 3-5</b><span>Extend to further cereals and new crops; layer practice payments</span></div>
+        <div class="flow-step"><b>Year 5+</b><span>International expansion where nitrogen is costlier or regulated</span></div>
+      </div>
+      <div class="takeaway"><strong>Takeaway:</strong> the hard part of this business is not fermentation. It is persuading a risk-averse operator to change a programme that already works, once per year, with one chance per season.</div>""",
+        },
+        {
+            "eyebrow": "08 · Exit",
+            "title": "What each exit path demands",
+            "body": """      <div class="tbl-scroll"><table>
+        <thead><tr><th>Path</th><th>What the acquirer or market is buying</th><th>What has to be true first</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Strategic acquisition</strong> (ag input major)</td><td>A biological platform and the grower relationships, folded into an existing distribution machine</td><td>Proven multi-crop performance; a channel the acquirer can absorb; IP that survives diligence</td></tr>
+          <tr><td><strong>IPO</strong></td><td>Recurring, predictable revenue growth on a large displaceable market</td><td>Durable retention across grower cohorts; margin structure that improves with scale; weather-independent revenue narrative</td></tr>
+          <tr><td><strong>Stay private, keep compounding</strong></td><td>Continued private capital against acreage growth</td><td>Access to capital at acceptable dilution; no forced consolidation in the category</td></tr>
+          <tr><td><strong>Partial - licensing / JV by geography</strong></td><td>Regional rights where the company cannot build channel itself</td><td>Technology transferable without losing the data advantage</td></tr>
+        </tbody>
+      </table></div>
+      <h3 style="margin-top:24px">The risks we were asked about hardest</h3>
+      <ul>
+        <li><strong>Commodity coupling.</strong> The value proposition weakens when nitrogen is cheap - and nitrogen prices are set by energy markets.</li>
+        <li><strong>Single-season judgement.</strong> One bad field year with a visible yield gap can cost a county's worth of adoption.</li>
+        <li><strong>Regulatory treatment of engineered organisms</strong> varies by jurisdiction and constrains international expansion.</li>
+        <li><strong>Retention is the whole model.</strong> An annual input with a one-shot application window has to be re-won every spring.</li>
+      </ul>
+      <div class="takeaway"><strong>Position we took:</strong> fundable, with the recognition that this is an agronomic-trust business wearing a biotechnology badge. The technical risk was largely retired; the commercial risk was not.</div>""",
+        },
+        {
+            "eyebrow": "09 · Reflection",
+            "title": "What I would do differently",
+            "body": """      <div class="cols">
+        <div class="panel lime">
+          <h3>What worked</h3>
+          <ul>
+            <li>Anchoring the whole case in <strong>per-acre arithmetic</strong> rather than market-size slides - it gave the panel something to interrogate</li>
+            <li>Naming synthetic nitrogen, not other startups, as the real competitor</li>
+            <li>Being explicit that the product is a <strong>partial</strong> substitute</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>What I would strengthen</h3>
+          <ul>
+            <li><strong>Sensitivity analysis on retention</strong>, not just on price - churn matters more than acquisition in an annual-input model</li>
+            <li>A real <strong>cost-to-serve</strong> estimate for direct-to-grower agronomy support, which we treated too lightly</li>
+            <li><strong>Distributional</strong> yield outcomes rather than means; growers care about the bad tail, and so should the model</li>
+          </ul>
+        </div>
+      </div>
+      <div class="takeaway"><strong>What the project taught me, and why it is in this portfolio:</strong> I came to it from plant biotechnology, where the interesting question is whether the mechanism works. The commercial question is different and equally disciplined - whether the mechanism survives contact with a buyer's budget, risk tolerance and calendar. I now try to ask both.</div>""",
+        },
+        {
+            "eyebrow": "10 · Sources",
+            "title": "Where the public figures come from",
+            "body": """      <p>Company figures quoted in this deck are from public reporting and the company's own published materials, retrieved November 2026. They describe the company, not my analysis - the analysis is the framing, segmentation and model.</p>
+      <ul class="refs">
+        <li><strong>$430M Series D led by DCVC and Temasek; total equity raised over $600M; PROVEN 40 launched as the company's fourth commercial release, replacing up to 40 lb N/acre; product used on more than 1 million acres in 2021 with revenue tripling</strong> - company announcement and contemporaneous trade coverage, July 2021. <a href="https://agfundernews.com/pivot-bio-scores-430m-in-dcvc-temasek-led-series-d-round" target="_blank" rel="noopener">AgFunder News</a>, <a href="https://globalaginvesting.com/pivot-bio-raises-430m-series-d-replace-synthetic-fertilizer-using-microbes/" target="_blank" rel="noopener">Global AgInvesting</a>.</li>
+        <li><strong>First commercially available microbial nitrogen in 2019; ~$60B annual synthetic nitrogen market for corn, wheat and rice; roughly half of applied synthetic nitrogen taken up by crops; nitrous oxide ~300× the warming potential of CO<sub>2</sub></strong> - company release, July 2021. <a href="https://renewable-carbon.eu/news/?p=93406" target="_blank" rel="noopener">Release text</a>.</li>
+        <li><strong>In-furrow application requirement and seed contact for root colonisation; first-generation product replaced up to ~25 lb N/acre</strong> - <a href="https://www.farmprogress.com/crops/microbial-nitrogen-tech-gets-a-boost" target="_blank" rel="noopener">Farm Progress</a>, July 2021.</li>
+        <li><strong>2024 performance claims: yield parity at 37+ lb/acre nitrogen reduction across 172 fields in 97 counties in 20 states; 16% nitrogen-use-efficiency improvement; typical US corn programme of 160-200 lb N/acre; 200+ patent portfolio; CERT-N for cotton; N-OVATOR practice payments</strong> - <a href="https://www.pivotbio.com/" target="_blank" rel="noopener">Pivot Bio</a> company news. Company-reported.</li>
+        <li><strong>Revenue passing $100M in 2023 at 60%+ year-over-year growth; ~5 million corn acres; PROVEN 40 replacing roughly 20% of a grower's synthetic nitrogen</strong> - aggregated private-company profile, <a href="https://multiples.vc/private-comps/pivot-bio" target="_blank" rel="noopener">Multiples</a>. Secondary source; treat as indicative.</li>
+      </ul>
+      <div class="note neutral"><strong>A note on the numbers:</strong> several of the performance figures above are company-reported rather than independently audited, and I flagged them as such in the original analysis. Where a figure came from an aggregator rather than a primary release, I have said so. For the calculator on slide 6, no vendor pricing is assumed at all - the defaults are illustrative and every input is yours to set.</div>""",
+        },
+    ],
+    "page_script": """<script>
+(function(){
+  'use strict';
+  var ids=['npx','disp','cost','pass','acres'];
+  var el={};ids.forEach(function(i){el[i]=document.getElementById(i)});
+  var out={npx:document.getElementById('npx-o'),disp:document.getElementById('disp-o'),
+           cost:document.getElementById('cost-o'),pass:document.getElementById('pass-o')};
+  var r={gross:document.getElementById('r-gross'),net:document.getElementById('r-net'),
+         be:document.getElementById('r-be'),farm:document.getElementById('r-farm'),
+         verdict:document.getElementById('r-verdict')};
+  var svg=document.getElementById('chart');
+  var tbtn=document.getElementById('tbtn'), tbl=document.getElementById('tbl');
+  var NS='http://www.w3.org/2000/svg';
+  var money=function(v,d){return '$'+v.toLocaleString('en-US',{minimumFractionDigits:d===undefined?2:d,maximumFractionDigits:d===undefined?2:d})};
+
+  function state(){
+    return {px:+el.npx.value, disp:+el.disp.value, cost:+el.cost.value,
+            pass:+el.pass.value, acres:Math.max(1,+el.acres.value||1)};
+  }
+  // Net benefit per acre = value of displaced nitrogen + pass saved - product cost.
+  function net(px,s){ return px*s.disp + s.pass - s.cost; }
+
+  function mk(tag,attrs,text){
+    var n=document.createElementNS(NS,tag);
+    for(var k in attrs) n.setAttribute(k,attrs[k]);
+    if(text!==undefined) n.textContent=text;
+    return n;
+  }
+
+  function draw(s){
+    while(svg.firstChild && svg.firstChild.nodeName!=='title') svg.removeChild(svg.firstChild);
+    while(svg.childNodes.length>1) svg.removeChild(svg.lastChild);
+    var W=720,H=300,L=58,R=18,T=30,B=46;
+    var x0=0.25,x1=1.40;
+    var pts=[];
+    for(var p=x0;p<=x1+1e-9;p+=0.05){ pts.push([p,net(p,s)]); }
+    var ys=pts.map(function(d){return d[1]});
+    var ymin=Math.min.apply(null,ys.concat([0])), ymax=Math.max.apply(null,ys.concat([0]));
+    var pad=(ymax-ymin)*0.12||1; ymin-=pad; ymax+=pad;
+    var sx=function(v){return L+(v-x0)/(x1-x0)*(W-L-R)};
+    var sy=function(v){return T+(ymax-v)/(ymax-ymin)*(H-T-B)};
+
+    // horizontal gridlines
+    var ticks=4;
+    for(var i=0;i<=ticks;i++){
+      var v=ymin+(ymax-ymin)*i/ticks;
+      svg.appendChild(mk('line',{x1:L,x2:W-R,y1:sy(v),y2:sy(v),'class':'grid-line'}));
+      svg.appendChild(mk('text',{x:L-9,y:sy(v)+4,'class':'axis-label','text-anchor':'end'},money(v,0)));
+    }
+    // x axis
+    svg.appendChild(mk('line',{x1:L,x2:W-R,y1:sy(ymin),y2:sy(ymin),'class':'axis-line'}));
+    [0.25,0.50,0.75,1.00,1.25].forEach(function(v){
+      svg.appendChild(mk('text',{x:sx(v),y:H-24,'class':'axis-label','text-anchor':'middle'},money(v,2)));
+    });
+    svg.appendChild(mk('text',{x:(L+W-R)/2,y:H-6,'class':'axis-title','text-anchor':'middle'},'Nitrogen price ($/lb N)'));
+    svg.appendChild(mk('text',{x:L-46,y:T-12,'class':'axis-title'},'Net $/ac'));
+
+    // breakeven rule (series 2) with direct label
+    svg.appendChild(mk('line',{x1:L,x2:W-R,y1:sy(0),y2:sy(0),stroke:'var(--series-2)','stroke-width':2,'stroke-dasharray':'5 4'}));
+    svg.appendChild(mk('text',{x:W-R-4,y:sy(0)-7,'class':'value-label','text-anchor':'end',fill:'var(--series-2)'},'breakeven'));
+
+    // net benefit line (series 1)
+    var d=pts.map(function(pt,i){return (i?'L':'M')+sx(pt[0]).toFixed(1)+' '+sy(pt[1]).toFixed(1)}).join(' ');
+    svg.appendChild(mk('path',{d:d,'class':'series-line',stroke:'var(--series-1)'}));
+
+    // marker at the chosen price
+    var cy=net(s.px,s);
+    svg.appendChild(mk('line',{x1:sx(s.px),x2:sx(s.px),y1:T,y2:sy(ymin),stroke:'var(--axis)','stroke-width':1,'stroke-dasharray':'3 3'}));
+    svg.appendChild(mk('circle',{cx:sx(s.px),cy:sy(cy),r:5.5,fill:'var(--series-1)',stroke:'var(--surface-1)','stroke-width':2}));
+    var lx=sx(s.px)>W-150?sx(s.px)-10:sx(s.px)+10;
+    svg.appendChild(mk('text',{x:lx,y:sy(cy)-12,'class':'value-label','text-anchor':sx(s.px)>W-150?'end':'start'},money(cy)+' /ac'));
+  }
+
+  function table(s){
+    var rows='<table><thead><tr><th>N price ($/lb)</th><th>N value displaced /ac</th><th>Product cost /ac</th><th>Pass saved /ac</th><th>Net /ac</th></tr></thead><tbody>';
+    for(var p=0.30;p<=1.35;p+=0.15){
+      var n=net(p,s);
+      rows+='<tr><td>'+money(p,2)+'</td><td>'+money(p*s.disp)+'</td><td>-'+money(s.cost)+'</td><td>'+money(s.pass)+'</td><td><strong>'+money(n)+'</strong></td></tr>';
+    }
+    return rows+'</tbody></table>';
+  }
+
+  function update(){
+    var s=state();
+    out.npx.textContent=money(s.px,2);
+    out.disp.textContent=s.disp+' lb';
+    out.cost.textContent=money(s.cost,0);
+    out.pass.textContent=money(s.pass,0);
+    var g=s.px*s.disp, n=net(s.px,s);
+    var be=(s.cost-s.pass)/s.disp;
+    r.gross.textContent=money(g);
+    r.net.textContent=money(n);
+    r.net.className=n>=0?'ok':'flag';
+    r.be.textContent=money(be,2);
+    r.farm.textContent=money(n*s.acres,0);
+    var v = n<0 ? 'Loses money' : (n<6 ? 'Marginal' : (n<15 ? 'Workable' : 'Clear buy'));
+    r.verdict.textContent=v;
+    r.verdict.className = n<0 ? 'flag' : (n<6 ? '' : 'ok');
+    draw(s);
+    if(!tbl.hidden) tbl.innerHTML=table(s);
+  }
+
+  ids.forEach(function(i){ el[i].addEventListener('input',update); });
+  tbtn.addEventListener('click',function(){
+    tbl.hidden=!tbl.hidden;
+    tbtn.setAttribute('aria-expanded',String(!tbl.hidden));
+    tbtn.textContent=tbl.hidden?'Show data table':'Hide data table';
+    if(!tbl.hidden) tbl.innerHTML=table(state());
+  });
+  document.addEventListener('slide:shown',function(){ if(svg.clientWidth||true) update(); });
+  update();
+})();
+</script>""",
+}
