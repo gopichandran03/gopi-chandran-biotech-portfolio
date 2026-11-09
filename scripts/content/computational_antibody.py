@@ -1,4 +1,4 @@
-# Content for the Regenova computational / quantum-oriented antibody design
+# Content for the computational / quantum-oriented antibody design
 # walkthrough, including the TRACE hybrid quantum-classical platform and the
 # SARS-CoV-2 programme.
 #
@@ -16,15 +16,15 @@ PAGE = {
     "category": "Computational discovery",
     "card_title": "Computational & quantum antibody design",
     "home_title": "Computational &amp; quantum antibody design · TRACE",
-    "card_blurb": "Work at Regenova across pan-filovirus, Lassa and SARS-CoV-2 targets, built on the TRACE hybrid quantum-classical platform - plus a scorecard for judging any quantum-computing claim in drug discovery.",
+    "card_blurb": "Work across pan-filovirus, Lassa and SARS-CoV-2 targets, built on the TRACE hybrid quantum-classical platform - plus a scorecard for judging any quantum-computing claim in drug discovery.",
     "cta": "Open deck + scorecard",
     "demo_label": "Score a quantum claim",
     "tags": ["Antibody discovery", "TRACE platform", "Quantum-classical", "Due diligence"],
-    "meta": "Computational and quantum-oriented antibody design at Regenova: pan-filovirus, Lassa and SARS-CoV-2 programmes, the TRACE hybrid quantum-classical platform, and a framework for evaluating quantum claims in drug discovery.",
+    "meta": "Computational and quantum-oriented antibody design: pan-filovirus, Lassa and SARS-CoV-2 programmes, the TRACE hybrid quantum-classical platform, and a framework for evaluating quantum claims in drug discovery.",
     "headline": "The conserved epitope is the prize.<br><em>Finding it is a search problem.</em>",
-    "sub": "My work at Regenova Pharma sits where computational therapeutic discovery meets business operations - across broadly neutralizing antibody programmes for pan-filovirus, Lassa and SARS-CoV-2 targets, built on TRACE, a hybrid quantum-classical platform. This walkthrough covers the published science that frames those targets, how the design problem is actually posed, and the part I think is most transferable: how to judge a quantum-computing claim in this field without either dismissing it or buying it.",
+    "sub": "My work sits where computational therapeutic discovery meets business operations - across broadly neutralizing antibody programmes for pan-filovirus, Lassa and SARS-CoV-2 targets, built on TRACE, a hybrid quantum-classical platform. This walkthrough covers the published science that frames those targets, how the design problem is actually posed, and the part I think is most transferable: how to judge a quantum-computing claim in this field without either dismissing it or buying it.",
     "pills": [
-        ("Regenova Pharma · current", "solid"),
+        ("Therapeutic discovery · current", "solid"),
         ("TRACE · hybrid quantum-classical", "accent"),
         ("Pan-filovirus · Lassa · SARS-CoV-2",),
         ("Published literature only",),
@@ -233,7 +233,7 @@ PAGE = {
         {
             "eyebrow": "09 · Sources",
             "title": "Published literature cited on this page",
-            "body": """      <p>Every scientific statement above traces to one of these public sources. None of them is Regenova work, and none of them is from the abstract in preparation.</p>
+            "body": """      <p>Every scientific statement above traces to one of these public sources. None of them is my employer's work, and none of them is from the abstract in preparation.</p>
       <ul class="refs">
         <li><strong>Two FDA-approved monoclonal antibody therapies for <em>Zaire ebolavirus</em> (a three-antibody cocktail, October 2020; a single antibody, December 2020), both targeting the viral glycoprotein; efficacy not established against other <em>Ebolavirus</em> or <em>Marburgvirus</em> species</strong> - US CDC, <a href="https://www.cdc.gov/vhf/ebola/treatment/index.html" target="_blank" rel="noopener">Ebola treatment</a>; approval reporting via <a href="https://www.cidrap.umn.edu/news-perspective/2020/10/fda-approves-first-ebola-treatment" target="_blank" rel="noopener">CIDRAP</a> and the <a href="https://www.antibodysociety.org/?p=7015" target="_blank" rel="noopener">Antibody Society</a>.</li>
         <li><strong>Structural basis for antibody-mediated neutralization of Lassa virus; 37.7H bound to the prefusion GPC trimer at 3.2 Å; the majority of the neutralizing response targeting the quaternary prefusion assembly rather than either subunit</strong> - Hastie et al., <em>Science</em> 356:923-928 (2017). <a href="https://doi.org/10.1126/science.aam7260" target="_blank" rel="noopener">doi:10.1126/science.aam7260</a>; PDB <a href="https://www.rcsb.org/structure/5VK2" target="_blank" rel="noopener">5VK2</a>.</li>

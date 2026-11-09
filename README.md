@@ -119,7 +119,7 @@ UMBC: passaging and split planning, caffeine treatment design, scaling the
 culture up and down to meet experiments, cryopreservation and cell banking, and
 contingency planning for incubator, power and contamination failures.
 
-### Computational and quantum antibody design — Regenova
+### Computational and quantum antibody design
 Business development and operations support across broadly neutralizing
 antibody programmes for pan-filovirus, Lassa and SARS-CoV-2 targets, built on
 TRACE, a hybrid quantum-classical platform. Includes partner screening,
@@ -129,7 +129,7 @@ carry no confidential technical detail.
 
 ## Experience highlights
 
-### Regenova Pharmaceuticals — Business Development & Operations Management Intern
+### Business Development & Operations Management Intern
 - Screened 20+ potential industry and academic partners; five advanced to the
   next evaluation stage. 50+ academic outreach activities.
 - Prepared market landscape and competitive-intelligence materials across

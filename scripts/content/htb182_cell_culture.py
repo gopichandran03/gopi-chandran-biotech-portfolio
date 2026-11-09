@@ -176,7 +176,7 @@ PAGE = {
           <tr><td>12-well plate (per well)</td><td>3.8 cm²</td><td>1-2 mL</td><td>Imaging, small lysates</td></tr>
           <tr><td>6-well plate (per well)</td><td>9.6 cm²</td><td>2-3 mL</td><td>Treatment arms for protein or RNA</td></tr>
           <tr><td>T25 flask</td><td>25 cm²</td><td>5-7 mL</td><td>Routine maintenance; recovery after thaw</td></tr>
-          <tr><td>T75 flask</td><td>75 cm²</td><td>10-15 mL</td><td>Standard working flask; expansion</td></tr>
+          <tr><td>T75 flask</td><td>75 cm²</td><td>15 mL</td><td>Standard working flask; expansion</td></tr>
           <tr><td>T175 flask</td><td>175 cm²</td><td>25-35 mL</td><td>Bulk expansion ahead of a freeze or a large experiment</td></tr>
         </tbody>
       </table></div>
@@ -280,7 +280,7 @@ PAGE = {
     {n:'12-well (per well)', a:3.8,   v:1.5},
     {n:'6-well (per well)',  a:9.6,   v:2.5},
     {n:'T25 flask',          a:25,    v:6},
-    {n:'T75 flask',          a:75,    v:12},
+    {n:'T75 flask',          a:75,    v:15},
     {n:'T175 flask',         a:175,   v:30}
   ];
   // A workable confluent density for an adherent epithelial monolayer.
